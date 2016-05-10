@@ -22,10 +22,8 @@ class ViewController: UIViewController {
     }
 
     @IBAction func backupPhotos(sender: UIButton) {
-        // TODO: Exclude videos
-        
-        var assets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
-        
+        let assets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
+
         assets.enumerateObjectsUsingBlock { (obj, idx, bool) -> Void in
             let asset = obj as! PHAsset
             PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil)
