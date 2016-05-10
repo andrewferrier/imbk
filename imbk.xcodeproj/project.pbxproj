@@ -12,6 +12,9 @@
 		851796611CE23B5300039288 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8517965F1CE23B5300039288 /* Main.storyboard */; };
 		851796631CE23B5300039288 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 851796621CE23B5300039288 /* Assets.xcassets */; };
 		851796661CE23B5300039288 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 851796641CE23B5300039288 /* LaunchScreen.storyboard */; };
+		85A08E0B1CE24D1B008CAB2F /* NMSSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A08E0A1CE24D1B008CAB2F /* NMSSH.framework */; };
+		85A08E0D1CE24D42008CAB2F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A08E0C1CE24D42008CAB2F /* CFNetwork.framework */; };
+		85A08E0F1CE24D47008CAB2F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A08E0E1CE24D47008CAB2F /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,10 @@
 		851796621CE23B5300039288 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		851796651CE23B5300039288 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		851796671CE23B5300039288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85A08E0A1CE24D1B008CAB2F /* NMSSH.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NMSSH.framework; sourceTree = "<group>"; };
+		85A08E0C1CE24D42008CAB2F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		85A08E0E1CE24D47008CAB2F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		85A08E101CE24D81008CAB2F /* NMSSH-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NMSSH-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +36,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85A08E0F1CE24D47008CAB2F /* libz.tbd in Frameworks */,
+				85A08E0D1CE24D42008CAB2F /* CFNetwork.framework in Frameworks */,
+				85A08E0B1CE24D1B008CAB2F /* NMSSH.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +48,9 @@
 		8517964F1CE23B5300039288 = {
 			isa = PBXGroup;
 			children = (
+				85A08E101CE24D81008CAB2F /* NMSSH-Bridging-Header.h */,
+				85A08E0E1CE24D47008CAB2F /* libz.tbd */,
+				85A08E0C1CE24D42008CAB2F /* CFNetwork.framework */,
 				8517965A1CE23B5300039288 /* imbk */,
 				851796591CE23B5300039288 /* Products */,
 			);
@@ -57,6 +70,7 @@
 				8517965B1CE23B5300039288 /* AppDelegate.swift */,
 				8517965D1CE23B5300039288 /* ViewController.swift */,
 				8517965F1CE23B5300039288 /* Main.storyboard */,
+				85A08E0A1CE24D1B008CAB2F /* NMSSH.framework */,
 				851796621CE23B5300039288 /* Assets.xcassets */,
 				851796641CE23B5300039288 /* LaunchScreen.storyboard */,
 				851796671CE23B5300039288 /* Info.plist */,
@@ -202,6 +216,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "NMSSH-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -240,6 +255,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "NMSSH-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -249,6 +265,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/imbk",
+				);
 				INFOPLIST_FILE = imbk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.andrewferrier.imbk.imbk;
@@ -260,6 +280,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/imbk",
+				);
 				INFOPLIST_FILE = imbk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.andrewferrier.imbk.imbk;
@@ -286,6 +310,7 @@
 				8517966C1CE23B5300039288 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -27,15 +27,37 @@ class ViewController: UIViewController {
         var assets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
         
         assets.enumerateObjectsUsingBlock { (obj, idx, bool) -> Void in
-            PHImageManager.defaultManager().requestImageDataForAsset(obj as! PHAsset, options: nil)
+            let asset = obj as! PHAsset
+            PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil)
             {
-                imageData,dataUTI,orientation,info in self.uploadPhoto(imageData!)
+                imageData,dataUTI,orientation,info in self.uploadPhoto(imageData!, creationDate: asset.creationDate!)
             }
         }
     }
-    
-    func uploadPhoto(x: AnyObject) {
-        print(x)
+
+    func uploadPhoto(imageData: NSData, creationDate: NSDate) {
+        let host = "XXX"
+        let username = "XXX"
+        let password = "XXX"
+        let session = NMSSHSession(host: host, andUsername: username)
+        session.connect()
+        if session.connected == true {
+            session.authenticateByPassword(password)
+            if session.authorized == true {
+                NSLog("Authentication succeeded")
+            }
+
+            let sftpSession = NMSFTP.connectWithSession(session)
+
+            let dateFormatter = NSDateFormatter()
+            let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
+            dateFormatter.locale = enUSPosixLocale
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+            let date = dateFormatter.stringFromDate(creationDate)
+
+            sftpSession.writeContents(imageData, toFileAtPath: "/home/ferriera/" + date + ".jpg")
+        }
+        session.disconnect()
     }
 }
 
