@@ -13,10 +13,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var host: UITextField!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var statusLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.statusLabel.text = ""
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,16 +28,22 @@ class ViewController: UIViewController {
     @IBAction func backupPhotos(sender: UIButton) {
         let assets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
 
-        assets.enumerateObjectsUsingBlock { (obj, idx, bool) -> Void in
-            let asset = obj as! PHAsset
-            PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil)
-            {
-                imageData,dataUTI,orientation,info in self.uploadPhoto(imageData!, creationDate: asset.creationDate!)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            assets.enumerateObjectsUsingBlock { (obj, idx, bool) -> Void in
+                let asset = obj as! PHAsset
+                PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil)
+                    {
+                        imageData,dataUTI,orientation,info in self.uploadPhoto(imageData!, index: idx, totalNumber: assets.count, creationDate: asset.creationDate!)
+                }
             }
         }
     }
 
-    func uploadPhoto(imageData: NSData, creationDate: NSDate) {
+    func uploadPhoto(imageData: NSData, index: Int, totalNumber: Int, creationDate: NSDate) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.statusLabel.text = "Uploading: " + String(index + 1) + "/" + String(totalNumber)
+        }
+        
         let host = self.host.text
         let username = self.username.text
         let password = self.password.text
@@ -44,9 +51,6 @@ class ViewController: UIViewController {
         session.connect()
         if session.connected == true {
             session.authenticateByPassword(password)
-            if session.authorized == true {
-                NSLog("Authentication succeeded")
-            }
 
             let sftpSession = NMSFTP.connectWithSession(session)
 
@@ -55,12 +59,12 @@ class ViewController: UIViewController {
             dateFormatter.locale = enUSPosixLocale
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
             let date = dateFormatter.stringFromDate(creationDate)
+            let filePath =  "/home/ferriera/" + date + ".jpg"
 
-            sftpSession.writeContents(imageData, toFileAtPath: "/home/ferriera/" + date + ".jpg")
+            sftpSession.writeContents(imageData, toFileAtPath: filePath)
+            NSLog(filePath + " successfully written.")
         }
         session.disconnect()
-        
-        NSLog("Uploading complete.")
     }
 }
 
