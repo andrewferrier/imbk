@@ -10,6 +10,9 @@ import UIKit
 import Photos
 
 class ViewController: UIViewController {
+    @IBOutlet weak var host: UITextField!
+    @IBOutlet weak var username: UITextField!
+    @IBOutlet weak var password: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +37,9 @@ class ViewController: UIViewController {
     }
 
     func uploadPhoto(imageData: NSData, creationDate: NSDate) {
-        let host = "XXX"
-        let username = "XXX"
-        let password = "XXX"
+        let host = self.host.text
+        let username = self.username.text
+        let password = self.password.text
         let session = NMSSHSession(host: host, andUsername: username)
         session.connect()
         if session.connected == true {
@@ -56,6 +59,8 @@ class ViewController: UIViewController {
             sftpSession.writeContents(imageData, toFileAtPath: "/home/ferriera/" + date + ".jpg")
         }
         session.disconnect()
+        
+        NSLog("Uploading complete.")
     }
 }
 
