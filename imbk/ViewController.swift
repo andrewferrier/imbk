@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import NMSSH
 
 extension PHFetchResult: SequenceType {
     public func generate() -> NSFastGenerator {

@@ -26,3 +26,4 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 
+Pods/
