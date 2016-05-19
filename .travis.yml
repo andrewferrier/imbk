@@ -4,4 +4,4 @@ xcode_project: imbk.xcodeproj
 xcode_scheme: imbk
 xcode_sdk: iphonesimulator9.2
 before_install:
-    - gem install cocoapods -v '0.32.1'
+    - gem install cocoapods
