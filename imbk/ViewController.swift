@@ -52,6 +52,10 @@ class ViewController: UIViewController {
                         self.uploadPhoto(imageData!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
                 })
             }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.statusLabel.text = "Uploading complete."
+            }
         }
     }
 
