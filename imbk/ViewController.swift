@@ -39,7 +39,7 @@ class ViewController: UIViewController {
             var counter = 0;
 
             for asset in assets {
-                counter++;
+                counter += 1;
                 let asset = asset as! PHAsset
 
                 // This request must be synchronous otherwise the resultHandler ends up back on the main thread.
