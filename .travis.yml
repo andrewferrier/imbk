@@ -1,7 +1,6 @@
 language: objective-c
-osx_image: xcode7.2
+osx_image: xcode7.3
 xcode_project: imbk.xcodeproj
 xcode_scheme: imbk
 xcode_sdk: iphonesimulator9.2
-before_install:
-    - gem install cocoapods
+rvm: 1.9.3
