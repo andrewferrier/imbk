@@ -118,6 +118,7 @@ class ViewController: UIViewController {
     func updateStatus(status: String) {
         dispatch_async(dispatch_get_main_queue()) {
             self.statusLabel.text = status;
+            self.statusLabel.sizeToFit()
         }
     }
 }
