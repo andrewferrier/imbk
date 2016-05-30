@@ -12,7 +12,6 @@
 		851796611CE23B5300039288 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8517965F1CE23B5300039288 /* Main.storyboard */; };
 		851796631CE23B5300039288 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 851796621CE23B5300039288 /* Assets.xcassets */; };
 		851796661CE23B5300039288 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 851796641CE23B5300039288 /* LaunchScreen.storyboard */; };
-		85A08E0B1CE24D1B008CAB2F /* NMSSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A08E0A1CE24D1B008CAB2F /* NMSSH.framework */; };
 		85A08E0D1CE24D42008CAB2F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A08E0C1CE24D42008CAB2F /* CFNetwork.framework */; };
 		85A08E0F1CE24D47008CAB2F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A08E0E1CE24D47008CAB2F /* libz.tbd */; };
 		8E9C93C372437781FE5A0C7D /* Pods_imbk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7EC162BE96A8134CD22637 /* Pods_imbk.framework */; };
@@ -27,10 +26,8 @@
 		851796621CE23B5300039288 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		851796651CE23B5300039288 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		851796671CE23B5300039288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		85A08E0A1CE24D1B008CAB2F /* NMSSH.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NMSSH.framework; sourceTree = "<group>"; };
 		85A08E0C1CE24D42008CAB2F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		85A08E0E1CE24D47008CAB2F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		85A08E101CE24D81008CAB2F /* NMSSH-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NMSSH-Bridging-Header.h"; sourceTree = "<group>"; };
 		AE7EC162BE96A8134CD22637 /* Pods_imbk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_imbk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBC5530F4B104EA53485C607 /* Pods-imbk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-imbk.release.xcconfig"; path = "Pods/Target Support Files/Pods-imbk/Pods-imbk.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,7 +39,6 @@
 			files = (
 				85A08E0F1CE24D47008CAB2F /* libz.tbd in Frameworks */,
 				85A08E0D1CE24D42008CAB2F /* CFNetwork.framework in Frameworks */,
-				85A08E0B1CE24D1B008CAB2F /* NMSSH.framework in Frameworks */,
 				8E9C93C372437781FE5A0C7D /* Pods_imbk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,7 +58,6 @@
 		8517964F1CE23B5300039288 = {
 			isa = PBXGroup;
 			children = (
-				85A08E101CE24D81008CAB2F /* NMSSH-Bridging-Header.h */,
 				85A08E0E1CE24D47008CAB2F /* libz.tbd */,
 				85A08E0C1CE24D42008CAB2F /* CFNetwork.framework */,
 				8517965A1CE23B5300039288 /* imbk */,
@@ -86,7 +81,6 @@
 				8517965B1CE23B5300039288 /* AppDelegate.swift */,
 				8517965D1CE23B5300039288 /* ViewController.swift */,
 				8517965F1CE23B5300039288 /* Main.storyboard */,
-				85A08E0A1CE24D1B008CAB2F /* NMSSH.framework */,
 				851796621CE23B5300039288 /* Assets.xcassets */,
 				851796641CE23B5300039288 /* LaunchScreen.storyboard */,
 				851796671CE23B5300039288 /* Info.plist */,
