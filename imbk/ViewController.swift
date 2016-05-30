@@ -21,7 +21,7 @@ enum ConnectionError: ErrorType {
     case NotAuthorized
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var host: UITextField!
     @IBOutlet weak var port: UITextField!
     @IBOutlet weak var remoteDir: UITextField!
@@ -31,6 +31,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.host.delegate = self
+        self.port.delegate = self
+        self.username.delegate = self
+        self.password.delegate = self
+        self.remoteDir.delegate = self
+        
         self.statusLabel.text = ""
         
         if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("host") {
@@ -150,6 +157,11 @@ class ViewController: UIViewController {
             self.statusLabel.text = status;
             self.statusLabel.sizeToFit()
         }
+    }
+    
+    func textFieldShouldReturn(userText: UITextField) -> Bool {
+        userText.resignFirstResponder()
+        return true;
     }
 }
 
