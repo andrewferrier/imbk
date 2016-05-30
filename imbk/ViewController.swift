@@ -30,6 +30,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.statusLabel.text = ""
+        
+        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("host") {
+            self.host.text = savedValue
+        }
+        
+        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+            self.username.text = savedValue
+        }
+        
+        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("password") {
+            self.password.text = savedValue
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -77,6 +89,9 @@ class ViewController: UIViewController {
             if (!failure) {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.statusLabel.text = "Uploading complete."
+                    NSUserDefaults.standardUserDefaults().setObject(self.host.text, forKey: "host")
+                    NSUserDefaults.standardUserDefaults().setObject(self.username.text, forKey: "username")
+                    NSUserDefaults.standardUserDefaults().setObject(self.password.text, forKey: "password")
                 }
             }
         }
