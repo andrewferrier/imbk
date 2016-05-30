@@ -7,3 +7,7 @@ script:
 - |
   set -o pipefail
   xcodebuild build -workspace imbk.xcworkspace -sdk iphonesimulator -scheme imbk -configuration Debug | xcpretty -c
+notifications:
+  email:
+    recipients:
+      - secure: "JbmbumZwyuLJ2A04g3iGL80otT74hE9e0XVzZw3/wGJ6IH3aVQObo0FzLxm6FJakYHuqJmmKpSpCGJWhlNZTiU0vVyzPLEZjWEQ11OWDpTM8ZVtPIlfMa9VusV3ofJTVMR4ii+3zNJEebhz+cAmT40xzTxVN+Flupcd45ZI8K/KruCinUcsZxM8+7ZBx16SwGNn/Ap/zVwwnDkuftHmw4DlIqEx0P8FskVWtqYCoLBnt0cZhZwrdMMs0FTZrplpbDrS8iynsKNVLSaiY3xKPOpFld3TKE1dpyDtORrOlTqBlRMALzou2AFUm5m6iEHUS41radJIJ1ERwoOp4tFecP27EqeLm6ChhLoeaYE3vLhLlUbZ3r19UKYa2lsi3OnJR5u6s7t+zbTTPzVIB53811jHEJcDh3wFBIMAwVx58rNaMJ9AXiOKIi+IayEeD+njwY6MWB99DOYynomx3hWXJDEO28BdcqflP1QvdFybDLr2kKwqGpDpkqek+WUUpsC2Tc8wzJ59vM22LFXY9mXFBTfrQUI5OzoArkjyvhQnvpytwABX8xtLWKzv/Fo/KJ2N7VE6n5zBSAfRkhX1+mvuyZNDyzYDAuqXwE8Xz2NSEcfy0CzyrCDHU3zZONzKKKQKeaR51jlNw6iut6Im/+H1xoDe706BiLQ0pGF++pG43ejY="
