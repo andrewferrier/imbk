@@ -6,4 +6,4 @@ before_install:
 script:
 - |
   set -o pipefail
-  xcodebuild test -project imbk.xcodeproj -sdk iphonesimulator -scheme imbk -configuration Debug | xcpretty -c
+  xcodebuild build -workspace imbk.xcworkspace -sdk iphonesimulator -scheme imbk -configuration Debug | xcpretty -c
