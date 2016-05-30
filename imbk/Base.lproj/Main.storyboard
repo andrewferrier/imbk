@@ -19,35 +19,47 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7fw-5h-0gj">
-                                <rect key="frame" x="120" y="103" width="460" height="30"/>
+                                <rect key="frame" x="120" y="188" width="460" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vfJ-DP-ny8">
-                                <rect key="frame" x="120" y="143" width="460" height="30"/>
+                                <rect key="frame" x="120" y="229" width="460" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Host" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUl-3U-doV">
                                 <rect key="frame" x="20" y="69" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLy-ej-YmD">
-                                <rect key="frame" x="20" y="108" width="79" height="21"/>
+                                <rect key="frame" x="20" y="193" width="79" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Port" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcz-ro-Nbf">
+                                <rect key="frame" x="20" y="109" width="33" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Remote Dir" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhC-Fy-Nn1">
+                                <rect key="frame" x="20" y="140" width="86" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JG8-cp-Uas">
-                                <rect key="frame" x="20" y="147" width="74" height="21"/>
+                                <rect key="frame" x="20" y="232" width="74" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHg-Es-ey7">
-                                <rect key="frame" x="20" y="183" width="155" height="56"/>
+                                <rect key="frame" x="20" y="266" width="155" height="56"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Backup Photos"/>
                                 <connections>
@@ -60,7 +72,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gc5-VT-E7M">
                                 <rect key="frame" x="120" y="65" width="460" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
                             </textField>
                             <navigationBar contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v3l-bn-5Zt">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -68,32 +80,50 @@
                                     <navigationItem title="imbk" id="7DE-5A-EM2"/>
                                 </items>
                             </navigationBar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9ce-wV-Pja">
+                                <rect key="frame" x="120" y="105" width="460" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S3i-V2-D1r">
+                                <rect key="frame" x="120" y="146" width="460" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
+                            </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Status Label that contains lots and lots of stuff" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3p-qt-4Kr">
-                                <rect key="frame" x="20" y="242" width="560" height="138"/>
+                                <rect key="frame" x="20" y="319" width="560" height="138"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="vfJ-DP-ny8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="1Zl-3P-3W8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="9ce-wV-Pja" secondAttribute="trailing" id="1s3-yo-6LL"/>
+                            <constraint firstItem="S3i-V2-D1r" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="CLj-6T-sBs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7fw-5h-0gj" secondAttribute="trailing" id="CxH-DM-2PR"/>
-                            <constraint firstItem="vfJ-DP-ny8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="123" id="HB9-Vg-HLS"/>
-                            <constraint firstItem="7fw-5h-0gj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="83" id="Kyv-Jh-wtG"/>
+                            <constraint firstItem="vfJ-DP-ny8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="209" id="HB9-Vg-HLS"/>
+                            <constraint firstItem="7fw-5h-0gj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="168" id="Kyv-Jh-wtG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gc5-VT-E7M" secondAttribute="trailing" id="OgK-Zh-PCi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vfJ-DP-ny8" secondAttribute="trailing" id="PVO-An-GPo"/>
+                            <constraint firstItem="S3i-V2-D1r" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="126" id="WHY-yl-bxU"/>
                             <constraint firstItem="gc5-VT-E7M" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="cyN-fW-FYB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="S3i-V2-D1r" secondAttribute="trailing" id="dgW-3Q-pua"/>
                             <constraint firstItem="N3p-qt-4Kr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="dp0-oh-yad"/>
                             <constraint firstItem="7fw-5h-0gj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="fmh-jo-Qh8"/>
                             <constraint firstItem="gc5-VT-E7M" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="45" id="gXg-r2-ecw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="N3p-qt-4Kr" secondAttribute="trailing" id="jSJ-PK-Maj"/>
+                            <constraint firstItem="9ce-wV-Pja" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="kaV-4n-axT"/>
                             <constraint firstItem="v3l-bn-5Zt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tgE-Gw-dVR"/>
+                            <constraint firstItem="9ce-wV-Pja" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="85" id="wb2-0i-GZ4"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="host" destination="gc5-VT-E7M" id="Grs-Fv-1Cf"/>
                         <outlet property="password" destination="vfJ-DP-ny8" id="czD-Dl-kvr"/>
+                        <outlet property="port" destination="9ce-wV-Pja" id="6v6-6h-gGr"/>
+                        <outlet property="remoteDir" destination="S3i-V2-D1r" id="joL-ja-I6e"/>
                         <outlet property="statusLabel" destination="N3p-qt-4Kr" id="qgi-is-wzV"/>
                         <outlet property="username" destination="7fw-5h-0gj" id="Tb6-uR-xLj"/>
                     </connections>

@@ -23,6 +23,8 @@ enum ConnectionError: ErrorType {
 
 class ViewController: UIViewController {
     @IBOutlet weak var host: UITextField!
+    @IBOutlet weak var port: UITextField!
+    @IBOutlet weak var remoteDir: UITextField!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var statusLabel: UILabel!
@@ -33,6 +35,16 @@ class ViewController: UIViewController {
         
         if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("host") {
             self.host.text = savedValue
+        }
+        
+        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("port") {
+            self.port.text = savedValue
+        } else {
+            self.port.text = "22"
+        }
+        
+        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("remoteDir") {
+            self.remoteDir.text = savedValue
         }
         
         if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("username") {
@@ -90,6 +102,8 @@ class ViewController: UIViewController {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.statusLabel.text = "Uploading complete."
                     NSUserDefaults.standardUserDefaults().setObject(self.host.text, forKey: "host")
+                    NSUserDefaults.standardUserDefaults().setObject(self.port.text, forKey: "port")
+                    NSUserDefaults.standardUserDefaults().setObject(self.remoteDir.text, forKey: "remoteDir")
                     NSUserDefaults.standardUserDefaults().setObject(self.username.text, forKey: "username")
                     NSUserDefaults.standardUserDefaults().setObject(self.password.text, forKey: "password")
                 }
@@ -101,9 +115,10 @@ class ViewController: UIViewController {
         self.updateStatus("Uploading: " + String(index) + "/" + String(totalNumber))
         
         let host = self.host.text
+        let port = self.port.text
         let username = self.username.text
         let password = self.password.text
-        let session = NMSSHSession(host: host, andUsername: username)
+        let session = NMSSHSession(host: host, port: Int(port!)!, andUsername: username)
         
         session.connect()
         guard session.connected else {
@@ -122,7 +137,7 @@ class ViewController: UIViewController {
         dateFormatter.locale = enUSPosixLocale
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         let date = dateFormatter.stringFromDate(creationDate)
-        let filePath =  "/home/ferriera/" + date + ".jpg"
+        let filePath =  self.remoteDir.text! + "/" + date + ".jpg"
         
         sftpSession.writeContents(imageData, toFileAtPath: filePath)
         NSLog(filePath + " successfully written.")
