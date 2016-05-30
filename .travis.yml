@@ -1,6 +1,8 @@
 language: objective-c
+os: osx
 osx_image: xcode7.3
-xcode_project: imbk.xcodeproj
-xcode_scheme: imbk
-xcode_sdk: iphonesimulator9.2
-rvm: 1.9.3
+before_install:
+  gem install xcpretty -N --no-ri --no-rdoc
+script:
+  set -o pipefail
+  xcodebuild test -project imbk.xcodeproj -sdk iphonesimulator -scheme imbk -configuration Debug | xcpretty -c
