@@ -148,6 +148,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     func updateStatus(status: String) {
+        NSLog("Status change: " + status)
         dispatch_async(dispatch_get_main_queue()) {
             self.statusLabel.text = status;
             self.statusLabel.sizeToFit()
