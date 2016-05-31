@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import NMSSH
+import KeychainSwift
 
 extension PHFetchResult: SequenceType {
     public func generate() -> NSFastGenerator {
@@ -40,25 +41,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         self.statusLabel.text = ""
 
-        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("host") {
+        let keychain = KeychainSwift()
+
+        if let savedValue = keychain.get("host") {
             self.host.text = savedValue
         }
 
-        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("port") {
+        if let savedValue = keychain.get("port") {
             self.port.text = savedValue
         } else {
             self.port.text = "22"
         }
 
-        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("remoteDir") {
+        if let savedValue = keychain.get("remoteDir") {
             self.remoteDir.text = savedValue
         }
 
-        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+        if let savedValue = keychain.get("username") {
             self.username.text = savedValue
         }
 
-        if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("password") {
+        if let savedValue = keychain.get("password") {
             self.password.text = savedValue
         }
     }
@@ -108,11 +111,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if (!failure) {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.statusLabel.text = "Uploading complete."
-                    NSUserDefaults.standardUserDefaults().setObject(self.host.text, forKey: "host")
-                    NSUserDefaults.standardUserDefaults().setObject(self.port.text, forKey: "port")
-                    NSUserDefaults.standardUserDefaults().setObject(self.remoteDir.text, forKey: "remoteDir")
-                    NSUserDefaults.standardUserDefaults().setObject(self.username.text, forKey: "username")
-                    NSUserDefaults.standardUserDefaults().setObject(self.password.text, forKey: "password")
+
+                    let keychain = KeychainSwift()
+
+                    keychain.set(self.host.text!, forKey: "host")
+                    keychain.set(self.port.text!, forKey: "port")
+                    keychain.set(self.remoteDir.text!, forKey: "remoteDir")
+                    keychain.set(self.username.text!, forKey: "username")
+                    keychain.set(self.password.text!, forKey: "password")
                 }
             }
         }
