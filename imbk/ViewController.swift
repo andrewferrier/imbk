@@ -138,12 +138,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         
         let sftpSession = NMSFTP.connectWithSession(session)
-        
-        let dateFormatter = NSDateFormatter()
-        let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.locale = enUSPosixLocale
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        let date = dateFormatter.stringFromDate(creationDate)
+        let date = formatDate(creationDate)
         let filePath =  self.remoteDir.text! + "/" + date + ".jpg"
         
         sftpSession.writeContents(imageData, toFileAtPath: filePath)
@@ -157,6 +152,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.statusLabel.text = status;
             self.statusLabel.sizeToFit()
         }
+    }
+    
+    func formatDate(date: NSDate) -> String {
+        let dateFormatter = NSDateFormatter()
+        let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = enUSPosixLocale
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return dateFormatter.stringFromDate(date)
     }
     
     func textFieldShouldReturn(userText: UITextField) -> Bool {
