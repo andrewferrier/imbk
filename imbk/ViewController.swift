@@ -28,65 +28,65 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var statusLabel: UILabel!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.host.delegate = self
         self.port.delegate = self
         self.username.delegate = self
         self.password.delegate = self
         self.remoteDir.delegate = self
-        
+
         self.statusLabel.text = ""
-        
+
         if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("host") {
             self.host.text = savedValue
         }
-        
+
         if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("port") {
             self.port.text = savedValue
         } else {
             self.port.text = "22"
         }
-        
+
         if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("remoteDir") {
             self.remoteDir.text = savedValue
         }
-        
+
         if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("username") {
             self.username.text = savedValue
         }
-        
+
         if let savedValue = NSUserDefaults.standardUserDefaults().stringForKey("password") {
             self.password.text = savedValue
         }
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     @IBAction func backupPhotos(sender: UIButton) {
         let assets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
-        
+
         dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
             var counter = 0;
             var failure = false;
-            
+
             for asset in assets {
                 guard failure == false else {
                     break;
                 }
-                
+
                 counter += 1;
                 let asset = asset as! PHAsset
-                
+
                 // This request must be synchronous otherwise the resultHandler ends up back on the main thread.
                 let myOptions = PHImageRequestOptions()
                 myOptions.synchronous = true
-                
+
                 PHImageManager.defaultManager().requestImageDataForAsset(asset, options: myOptions, resultHandler:
                     {
                         imageData,dataUTI,orientation,info in
@@ -104,7 +104,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         }
                 })
             }
-            
+
             if (!failure) {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.statusLabel.text = "Uploading complete."
@@ -117,26 +117,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
     func uploadPhoto(imageData: NSData, index: Int, totalNumber: Int, creationDate: NSDate) throws {
         self.updateStatus("Uploading: " + String(index) + "/" + String(totalNumber))
-        
+
         let host = self.host.text
         let port = self.port.text
         let username = self.username.text
         let password = self.password.text
         let session = NMSSHSession(host: host, port: Int(port!)!, andUsername: username)
-        
+
         session.connect()
         guard session.connected else {
             throw ConnectionError.NotConnected
         }
-        
+
         session.authenticateByPassword(password)
         guard session.authorized else {
             throw ConnectionError.NotAuthorized
         }
-        
+
         let sftpSession = NMSFTP.connectWithSession(session)
         let date = formatDate(creationDate)
         let filePath =  self.remoteDir.text! + "/" + date + ".jpg"
@@ -146,14 +146,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         session.disconnect()
     }
-    
+
     func updateStatus(status: String) {
         dispatch_async(dispatch_get_main_queue()) {
             self.statusLabel.text = status;
             self.statusLabel.sizeToFit()
         }
     }
-    
+
     func formatDate(date: NSDate) -> String {
         let dateFormatter = NSDateFormatter()
         let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
@@ -161,7 +161,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return dateFormatter.stringFromDate(date)
     }
-    
+
     func textFieldShouldReturn(userText: UITextField) -> Bool {
         userText.resignFirstResponder()
         return true;
