@@ -29,6 +29,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var progressView: UIProgressView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +40,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.password.delegate = self
         self.remoteDir.delegate = self
 
-        self.statusLabel.text = ""
+        self.updateStatus("")
 
         let keychain = KeychainSwift()
 
@@ -125,7 +126,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     func uploadPhoto(imageData: NSData, index: Int, totalNumber: Int, creationDate: NSDate) throws {
-        self.updateStatus("Uploading: " + String(index) + "/" + String(totalNumber))
+        self.updateStatus("Uploading: " + String(index) + "/" + String(totalNumber), count: index, total: totalNumber)
 
         let host = self.host.text
         let port = self.port.text
@@ -153,9 +154,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         session.disconnect()
     }
 
-    func updateStatus(status: String) {
+    func updateStatus(status: String, count: Int = 0, total: Int = 0) {
         NSLog("Status change: " + status)
+
         dispatch_async(dispatch_get_main_queue()) {
+            if(total > 0) {
+                self.progressView.progress = Float(count) / Float(total)
+                self.progressView.hidden = false
+            } else {
+                self.progressView.hidden = true
+            }
+
             self.statusLabel.text = status;
             self.statusLabel.sizeToFit()
         }
