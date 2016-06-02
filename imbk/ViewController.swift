@@ -110,17 +110,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }
 
             if (!failure) {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.statusLabel.text = "Uploading complete."
+                self.updateStatus("Uploading complete.")
 
-                    let keychain = KeychainSwift()
+                let keychain = KeychainSwift()
 
-                    keychain.set(self.host.text!, forKey: "host")
-                    keychain.set(self.port.text!, forKey: "port")
-                    keychain.set(self.remoteDir.text!, forKey: "remoteDir")
-                    keychain.set(self.username.text!, forKey: "username")
-                    keychain.set(self.password.text!, forKey: "password")
-                }
+                keychain.set(self.host.text!, forKey: "host")
+                keychain.set(self.port.text!, forKey: "port")
+                keychain.set(self.remoteDir.text!, forKey: "remoteDir")
+                keychain.set(self.username.text!, forKey: "username")
+                keychain.set(self.password.text!, forKey: "password")
             }
         }
     }
