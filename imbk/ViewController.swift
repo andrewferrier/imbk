@@ -176,9 +176,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return dateFormatter.stringFromDate(date)
     }
 
-    func textFieldShouldReturn(userText: UITextField) -> Bool {
-        userText.resignFirstResponder()
-        return true;
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        let nextTage = textField.tag + 1;
+
+        let nextResponder = textField.superview?.viewWithTag(nextTage) as UIResponder!
+
+        if (nextResponder != nil){
+            nextResponder?.becomeFirstResponder()
+        }
+        else {
+            textField.resignFirstResponder()
+        }
+
+        return false // We do not want UITextField to insert line-breaks.
     }
 }
 
