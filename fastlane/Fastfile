@@ -33,6 +33,8 @@ platform :ios do
             ignore_exit_status: false
         )
 
+        sh "./prepare_icons.sh"
+
         create_keychain(
             name: keychain_name,
             default_keychain: false,

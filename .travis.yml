@@ -5,6 +5,7 @@ before_install:
   - gem install xcpretty -N --no-ri --no-rdoc
   - brew update
   - brew install swiftlint
+  - brew install imagemagick
 before_script:
   - fastlane/decrypt_files.sh
 script:
