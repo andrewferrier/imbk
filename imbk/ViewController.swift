@@ -134,19 +134,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     func uploadPhoto(imageData: NSData, index: Int, totalNumber: Int, creationDate: NSDate) throws {
-        self.updateStatus("Uploading: " + String(index) + "/" + String(totalNumber), count: index, total: totalNumber)
-
         let host = self.host.text
         let port = self.port.text
         let username = self.username.text
         let password = self.password.text
         let session = NMSSHSession(host: host, port: Int(port!)!, andUsername: username)
 
+        self.updateStatus("Connecting... ", count: index, total: totalNumber)
         session.connect()
         guard session.connected else {
             throw ConnectionError.NotConnected
         }
 
+        self.updateStatus("Authenticating... ", count: index, total: totalNumber)
         session.authenticateByPassword(password)
         guard session.authorized else {
             throw ConnectionError.NotAuthorized
@@ -155,8 +155,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let sftpSession = NMSFTP.connectWithSession(session)
         let date = formatDate(creationDate)
         let filePath =  self.remoteDir.text! + "/" + date + ".jpg"
-        
+
+        self.updateStatus("Uploading...", count: index, total: totalNumber)
         sftpSession.writeContents(imageData, toFileAtPath: filePath)
+        self.updateStatus("Done.", count: index, total: totalNumber)
         NSLog(filePath + " successfully written.")
         
         session.disconnect()
@@ -166,14 +168,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
         NSLog("Status change: " + status)
 
         dispatch_async(dispatch_get_main_queue()) {
+            var newStatus = ""
+
             if(total > 0) {
                 self.progressView.progress = Float(count) / Float(total)
                 self.progressView.hidden = false
+                newStatus = status + " (" + String(count) + "/" + String(total) + ")"
             } else {
                 self.progressView.hidden = true
+                newStatus = status
             }
 
-            self.statusLabel.text = status;
+            self.statusLabel.text = newStatus;
             self.statusLabel.sizeToFit()
         }
     }
