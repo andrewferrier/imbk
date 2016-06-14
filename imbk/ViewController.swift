@@ -76,6 +76,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let assets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
 
         dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
+            NSLog("Disabling screen sleep")
+            UIApplication.sharedApplication().idleTimerDisabled = true
+
             var counter = 0;
             var failure = false;
 
@@ -108,6 +111,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         }
                 })
             }
+
+            NSLog("Re-enabling screen sleep")
+            UIApplication.sharedApplication().idleTimerDisabled = false
 
             if (!failure) {
                 self.updateStatus("Uploading complete.")
