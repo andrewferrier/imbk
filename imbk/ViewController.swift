@@ -116,7 +116,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             UIApplication.sharedApplication().idleTimerDisabled = false
 
             if (!failure) {
-                self.updateStatus("Uploading complete.")
+                self.updateStatus("Uploading complete successfully.")
 
                 let keychain = KeychainSwift()
 
@@ -125,6 +125,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 keychain.set(self.remoteDir.text!, forKey: "remoteDir")
                 keychain.set(self.username.text!, forKey: "username")
                 keychain.set(self.password.text!, forKey: "password")
+
+                UIApplication.sharedApplication().cancelAllLocalNotifications()
+                UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+                NSLog("All local notifications cancelled.")
             }
         }
     }
