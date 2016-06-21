@@ -1,0 +1,76 @@
+fastlane_version "1.47.0"
+
+default_platform :ios
+
+skip_docs
+
+platform :ios do
+    lane :clean do
+        keychain_name = "imbk-certs"
+
+        delete_keychain(
+            name: keychain_name
+        )
+    end
+
+    lane :register_devices do
+        register_devices(
+            devices_file: 'fastlane/devices.txt'
+        )
+    end
+
+    lane :beta do
+        keychain_name = "imbk-certs"
+
+        cocoapods()
+
+        create_keychain(
+            name: keychain_name,
+            default_keychain: false,
+            unlock: true,
+            timeout: 3600,
+            password: SecureRandom.base64
+        )
+
+        # # Import distribution certificate
+        import_certificate(
+            certificate_path: "fastlane/Certificates/distribution.p12",
+            certificate_password: ENV["KEY_PASSWORD"],
+            keychain_name: keychain_name
+        )
+
+        # # Fetch provisioning profile
+        sigh(
+            adhoc: true,
+            username: ENV["FASTLANE_USERID"],
+            team_id: ENV["TEAM_ID"],
+            provisioning_name: "imbk Distribution",
+            development: true
+        )
+
+        increment_build_number(build_number: number_of_commits)
+
+        # Build
+        gym(
+            configuration: "Ad Hoc",
+            sdk: "iphoneos9.3",
+            clean: true,
+            use_legacy_build_api: true,
+            export_method: "enterprise",
+            scheme: "imbk"
+        )
+
+        # Push to Hockey
+        hockey(
+            api_token: ENV["HOCKEY_API_TOKEN"],
+            public_identifier: ENV["HOCKEY_APP_ID"],
+            notify: '0',
+            status: '2',
+            notes: last_git_commit[:message] + "n(Uploaded automatically via fastlane)"
+        )
+
+        delete_keychain(
+            name: keychain_name
+        )
+    end
+end

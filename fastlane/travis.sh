@@ -1,0 +1,3 @@
+#!/bin/sh
+
+fastlane beta
