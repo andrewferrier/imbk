@@ -34,6 +34,7 @@ platform :ios do
 
         # Import distribution certificate
         sh "security import Certificates/distribution.p12 -k ~/Library/Keychains/" + keychain_name + " -P $KEY_PASSWORD -T /usr/bin/codesign -T /usr/bin/security"
+        sh "security import Certificates/distribution.cer -k ~/Library/Keychains/" + keychain_name + " -T /usr/bin/codesign -T /usr/bin/security"
 
         increment_build_number(build_number: number_of_commits)
 
