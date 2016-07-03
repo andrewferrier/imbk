@@ -24,6 +24,12 @@ platform :ios do
 
         cocoapods()
 
+        swiftlint(
+            mode: :lint,
+            config_file: '.swiftlint.yml',
+            ignore_exit_status: true
+        )
+
         create_keychain(
             name: keychain_name,
             default_keychain: false,
