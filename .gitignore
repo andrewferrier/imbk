@@ -37,4 +37,3 @@ fastlane/devices.txt
 
 imbk.ipa
 imbk.app.DSYM.zip
-*.mobileprovision
