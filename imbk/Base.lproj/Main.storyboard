@@ -132,6 +132,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backupPhotosButton" destination="rHg-Es-ey7" id="45T-84-fyU"/>
                         <outlet property="host" destination="gc5-VT-E7M" id="Grs-Fv-1Cf"/>
                         <outlet property="password" destination="vfJ-DP-ny8" id="czD-Dl-kvr"/>
                         <outlet property="port" destination="9ce-wV-Pja" id="6v6-6h-gGr"/>

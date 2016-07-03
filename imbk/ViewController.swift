@@ -30,6 +30,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var backupPhotosButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,8 +67,41 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.password.text = savedValue
         }
 
+        let currentStatus = PHPhotoLibrary.authorizationStatus()
+
+        switch currentStatus {
+        case .Authorized:
+            NSLog("Photos: Already authorized")
+            break
+        case .Restricted, .Denied:
+            NSLog("Photos: Already restricted or denied")
+            disableBackupPhotos()
+            break
+        case .NotDetermined:
+            NSLog("Photos: now need to determine")
+            PHPhotoLibrary.requestAuthorization() { (status) -> Void in
+                switch status{
+                case .Authorized:
+                    NSLog("Photos: Now authorized")
+                    break
+                case .Restricted, .Denied:
+                    NSLog("Photos: Now restricted or denied")
+                    self.disableBackupPhotos()
+                    break
+                default:
+                    break
+                }
+            }
+            break
+        }
+
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
+    }
+
+    func disableBackupPhotos() {
+        self.updateStatus("Cannot backup media - permission hasn't been granted for imbk")
+        self.backupPhotosButton.enabled = false
     }
 
     func dismissKeyboard() {
