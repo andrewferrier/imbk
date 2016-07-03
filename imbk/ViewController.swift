@@ -79,35 +79,37 @@ class ViewController: UIViewController, UITextFieldDelegate {
             NSLog("Disabling screen sleep")
             UIApplication.sharedApplication().idleTimerDisabled = true
 
-            var counter = 0;
-            var failure = false;
+            var counter = 0
+            var failure = false
 
             for asset in assets {
                 guard failure == false else {
-                    break;
+                    break
                 }
 
-                counter += 1;
+                counter += 1
+
+                // Allow since this always comes from PHAsset.fetchAssetsWithMediaType
+                // swiftlint:disable:next force_cast
                 let asset = asset as! PHAsset
 
                 // This request must be synchronous otherwise the resultHandler ends up back on the main thread.
                 let myOptions = PHImageRequestOptions()
                 myOptions.synchronous = true
 
-                PHImageManager.defaultManager().requestImageDataForAsset(asset, options: myOptions, resultHandler:
-                    {
-                        imageData,dataUTI,orientation,info in
+                PHImageManager.defaultManager().requestImageDataForAsset(asset, options: myOptions, resultHandler: {
+                        imageData, dataUTI, orientation, info in
                         do {
                             try self.uploadPhoto(imageData!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
                         } catch ConnectionError.NotAuthorized {
-                            self.updateStatus("Could not authorize - probably the username or password is wrong.");
-                            failure = true;
+                            self.updateStatus("Could not authorize - probably the username or password is wrong.")
+                            failure = true
                         } catch ConnectionError.NotConnected {
                             self.updateStatus("Could not connect - probably the hostname is wrong.")
-                            failure = true;
+                            failure = true
                         } catch {
-                            self.updateStatus("Unknown error");
-                            failure = true;
+                            self.updateStatus("Unknown error")
+                            failure = true
                         }
                 })
             }
@@ -115,7 +117,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             NSLog("Re-enabling screen sleep")
             UIApplication.sharedApplication().idleTimerDisabled = false
 
-            if (!failure) {
+            if !failure {
                 self.updateStatus("Uploading complete successfully.")
 
                 let keychain = KeychainSwift()
@@ -160,7 +162,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         sftpSession.writeContents(imageData, toFileAtPath: filePath)
         self.updateStatus("Done.", count: index, total: totalNumber)
         NSLog(filePath + " successfully written.")
-        
+
         session.disconnect()
     }
 
@@ -170,7 +172,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         dispatch_async(dispatch_get_main_queue()) {
             var newStatus = ""
 
-            if(total > 0) {
+            if total > 0 {
                 self.progressView.progress = Float(count) / Float(total)
                 self.progressView.hidden = false
                 newStatus = status + " (" + String(count) + "/" + String(total) + ")"
@@ -179,7 +181,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 newStatus = status
             }
 
-            self.statusLabel.text = newStatus;
+            self.statusLabel.text = newStatus
             self.statusLabel.sizeToFit()
         }
     }
@@ -193,18 +195,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        let nextTage = textField.tag + 1;
+        let nextTage = textField.tag + 1
 
         let nextResponder = textField.superview?.viewWithTag(nextTage) as UIResponder!
 
-        if (nextResponder != nil){
+        if nextResponder != nil {
             nextResponder?.becomeFirstResponder()
-        }
-        else {
+        } else {
             textField.resignFirstResponder()
         }
 
         return false // We do not want UITextField to insert line-breaks.
     }
 }
-

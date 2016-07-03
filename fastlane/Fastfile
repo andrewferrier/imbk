@@ -27,7 +27,7 @@ platform :ios do
         swiftlint(
             mode: :lint,
             config_file: '.swiftlint.yml',
-            ignore_exit_status: true
+            ignore_exit_status: false
         )
 
         create_keychain(
