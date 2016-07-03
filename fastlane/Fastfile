@@ -1,3 +1,6 @@
+# Based loosely on https://www.objc.io/issues/6-build-tools/travis-ci/ and
+# http://macoscope.com/blog/automate-testing-and-build-delivery/
+
 fastlane_version "1.47.0"
 
 default_platform :ios
