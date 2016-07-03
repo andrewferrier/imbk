@@ -45,6 +45,7 @@ platform :ios do
             use_legacy_build_api: true,
             export_method: "enterprise",
             scheme: "imbk",
+            codesigning_identity: "iPhone Distribution: Andrew Ferrier (BPR9292AKL)",
             provisioning_profile_path: "fastlane/Certificates/Development_com.andrewferrier.imbk.mobileprovision"
         )
 
