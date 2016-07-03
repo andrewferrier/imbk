@@ -1,11 +1,14 @@
 language: objective-c
 os: osx
 osx_image: xcode7.3
+before_install:
+  - gem install xcpretty -N --no-ri --no-rdoc
+  - brew update
+  - brew install swiftlint
 before_script:
-- fastlane/decrypt_files.sh
-before_install: gem install xcpretty -N --no-ri --no-rdoc
+  - fastlane/decrypt_files.sh
 script:
-- "./fastlane/travis.sh"
+  - "./fastlane/travis.sh"
 notifications:
   email:
     recipients:
