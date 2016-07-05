@@ -107,19 +107,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 myOptions.synchronous = true
 
                 PHImageManager.defaultManager().requestImageDataForAsset(asset, options: myOptions, resultHandler: {
-                        imageData, dataUTI, orientation, info in
-                        do {
-                            try self.uploadPhoto(imageData!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
-                        } catch ConnectionError.NotAuthorized {
-                            self.updateStatus("Could not authorize - probably the username or password is wrong.")
-                            failure = true
-                        } catch ConnectionError.NotConnected {
-                            self.updateStatus("Could not connect - probably the hostname is wrong.")
-                            failure = true
-                        } catch {
-                            self.updateStatus("Unknown error")
-                            failure = true
-                        }
+                    imageData, dataUTI, orientation, info in
+                    do {
+                        try self.uploadPhoto(imageData!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
+                    } catch ConnectionError.NotAuthorized {
+                        self.updateStatus("Could not authorize - probably the username or password is wrong.")
+                        failure = true
+                    } catch ConnectionError.NotConnected {
+                        self.updateStatus("Could not connect - probably the hostname is wrong.")
+                        failure = true
+                    } catch {
+                        self.updateStatus("Unknown error")
+                        failure = true
+                    }
                 })
             }
 
