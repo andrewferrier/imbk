@@ -72,6 +72,7 @@ platform :ios do
         hockey(
             api_token: ENV["HOCKEY_API_TOKEN"],
             public_identifier: ENV["HOCKEY_APP_ID"],
+            ipa: 'imbk.ipa',
             notify: '0',
             status: '2',
             notes: last_git_commit[:message] + " (Uploaded automatically via fastlane)"
