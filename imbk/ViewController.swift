@@ -199,12 +199,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         let sftpSession = NMSFTP.connectWithSession(session)
         let date = formatDate(creationDate)
-        let filePath =  self.remoteDir.text! + "/" + date + ".jpg"
 
-        self.updateStatus("Uploading...", count: index, total: totalNumber)
-        sftpSession.writeContents(imageData, toFileAtPath: filePath)
+        let finalFilePath =  self.remoteDir.text! + "/" + date + ".jpg"
+        let tempFilePath = self.remoteDir.text! + "/.tmp.jpg"
+
+        self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber)
+        sftpSession.writeContents(imageData, toFileAtPath: tempFilePath)
+        self.updateStatus("Moving file to final location...", count: index, total: totalNumber)
+        sftpSession.moveItemAtPath(tempFilePath, toPath: finalFilePath)
         self.updateStatus("Done.", count: index, total: totalNumber)
-        NSLog(filePath + " successfully written.")
+        NSLog(finalFilePath + " successfully written.")
 
         session.disconnect()
     }
