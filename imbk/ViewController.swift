@@ -65,6 +65,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if let savedValue = keychain.get("password") {
             self.password.text = savedValue
         }
+
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,6 +80,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func backupPhotos(sender: UIButton) {
+        dismissKeyboard()
+
         let assets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
 
         dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
