@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ABSOLUTE_PATH=$(cd $(dirname "$0"); pwd)
+ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 export KEY_PASSWORD=XXX
 export ENCRYPTION_PASSWORD=XXX

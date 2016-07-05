@@ -9,7 +9,8 @@ before_install:
 before_script:
   - fastlane/decrypt_files.sh
 script:
-  - "./fastlane/travis.sh"
+  - fastlane beta
+  - fastlane upload
 notifications:
   email:
     recipients:

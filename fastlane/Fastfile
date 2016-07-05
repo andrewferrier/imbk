@@ -62,17 +62,19 @@ platform :ios do
             provisioning_profile_path: "fastlane/Certificates/imbkDistribution.mobileprovision"
         )
 
+        delete_keychain(
+            name: keychain_name
+        )
+    end
+
+    lane :upload do
         # Push to Hockey
         hockey(
             api_token: ENV["HOCKEY_API_TOKEN"],
             public_identifier: ENV["HOCKEY_APP_ID"],
             notify: '0',
             status: '2',
-            notes: last_git_commit[:message] + "n(Uploaded automatically via fastlane)"
-        )
-
-        delete_keychain(
-            name: keychain_name
+            notes: last_git_commit[:message] + " (Uploaded automatically via fastlane)"
         )
     end
 end
