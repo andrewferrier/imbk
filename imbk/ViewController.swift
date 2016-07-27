@@ -108,6 +108,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
 
+    func lockScreen() {
+        NSLog("Disabling screen sleep")
+        UIApplication.sharedApplication().idleTimerDisabled = true
+        host.enabled = false
+        port.enabled = false
+        remoteDir.enabled = false
+        username.enabled = false
+        password.enabled = false
+    }
+
+    func unlockScreen() {
+        NSLog("Re-enabling screen sleep")
+        UIApplication.sharedApplication().idleTimerDisabled = false
+        host.enabled = true
+        port.enabled = true
+        remoteDir.enabled = true
+        username.enabled = true
+        password.enabled = true
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -119,8 +139,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let assets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
 
         dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
-            NSLog("Disabling screen sleep")
-            UIApplication.sharedApplication().idleTimerDisabled = true
+            self.lockScreen()
 
             var counter = 0
             var failure = false
@@ -157,8 +176,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 })
             }
 
-            NSLog("Re-enabling screen sleep")
-            UIApplication.sharedApplication().idleTimerDisabled = false
+            self.unlockScreen()
 
             if !failure {
                 self.updateStatus("Uploading complete successfully.")
