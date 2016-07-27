@@ -4,6 +4,9 @@ build: clean define-env-vars
 clean:
 	-fastlane clean
 
+lint:
+	swiftlint
+
 define-env-vars:
 	. fastlane/local_fastlane_testing.sh
 
