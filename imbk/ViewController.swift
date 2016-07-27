@@ -31,6 +31,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var backupPhotosButton: UIButton!
+    @IBOutlet weak var skipFilesSwitch: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -227,17 +228,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let tempFilePath = self.remoteDir.text! + "/.tmp.jpg"
         let length = imageData.length
 
-        self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber)
-        sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
-                                  progress: { sent in
-                                    self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(length))
-                                    return true
-            }
-        )
-        self.updateStatus("Moving file to final location...", count: index, total: totalNumber)
-        sftpSession.moveItemAtPath(tempFilePath, toPath: finalFilePath)
-        self.updateStatus("Done.", count: index, total: totalNumber)
-        NSLog(finalFilePath + " successfully written.")
+        if sftpSession.fileExistsAtPath(finalFilePath) && skipFilesSwitch.on {
+            NSLog("WARNING: " + finalFilePath + " already exists, skipping.")
+            self.updateStatus("WARNING: " + finalFilePath + " already exists, skipping.")
+        } else {
+            self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber)
+            sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
+                                      progress: { sent in
+                                        self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(length))
+                                        return true
+                }
+            )
+            self.updateStatus("Moving file to final location...", count: index, total: totalNumber)
+            sftpSession.moveItemAtPath(tempFilePath, toPath: finalFilePath)
+            self.updateStatus("Done.", count: index, total: totalNumber)
+            NSLog(finalFilePath + " successfully written.")
+        }
     }
 
     func updateStatus(status: String, count: Int = 0, total: Int = 0, percentage: Float = -1) {
