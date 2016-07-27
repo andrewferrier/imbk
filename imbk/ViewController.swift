@@ -67,6 +67,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.password.text = savedValue
         }
 
+        self.checkAuthorization()
+
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    func checkAuthorization() {
         let currentStatus = PHPhotoLibrary.authorizationStatus()
 
         switch currentStatus {
@@ -80,7 +87,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         case .NotDetermined:
             NSLog("Photos: now need to determine")
             PHPhotoLibrary.requestAuthorization() { (status) -> Void in
-                switch status{
+                switch status {
                 case .Authorized:
                     NSLog("Photos: Now authorized")
                     break
@@ -94,9 +101,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }
             break
         }
-
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
     }
 
     func disableBackupPhotos() {
@@ -145,7 +149,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
             let sftpSession = self.connectAndAuthenticate()
 
-            if (sftpSession != nil) {
+            if sftpSession != nil {
                 for asset in assets {
                     counter += 1
 
