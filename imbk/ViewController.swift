@@ -142,44 +142,32 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.lockScreen()
 
             var counter = 0
-            var failure = false
 
-            for asset in assets {
-                guard failure == false else {
-                    break
+            let sftpSession = self.connectAndAuthenticate()
+
+            if (sftpSession != nil) {
+                for asset in assets {
+                    counter += 1
+
+                    // Allow since this always comes from PHAsset.fetchAssetsWithMediaType
+                    // swiftlint:disable:next force_cast
+                    let asset = asset as! PHAsset
+
+                    // This request must be synchronous otherwise the resultHandler ends up back on the main thread.
+                    let myOptions = PHImageRequestOptions()
+                    myOptions.synchronous = true
+
+                    PHImageManager.defaultManager().requestImageDataForAsset(asset, options: myOptions, resultHandler: {
+                        imageData, dataUTI, orientation, info in
+                        self.uploadPhoto(sftpSession!, imageData: imageData!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
+                    })
                 }
 
-                counter += 1
-
-                // Allow since this always comes from PHAsset.fetchAssetsWithMediaType
-                // swiftlint:disable:next force_cast
-                let asset = asset as! PHAsset
-
-                // This request must be synchronous otherwise the resultHandler ends up back on the main thread.
-                let myOptions = PHImageRequestOptions()
-                myOptions.synchronous = true
-
-                PHImageManager.defaultManager().requestImageDataForAsset(asset, options: myOptions, resultHandler: {
-                    imageData, dataUTI, orientation, info in
-                    do {
-                        try self.uploadPhoto(imageData!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
-                    } catch ConnectionError.NotAuthorized {
-                        self.updateStatus("Could not authorize - probably the username or password is wrong.")
-                        failure = true
-                    } catch ConnectionError.NotConnected {
-                        self.updateStatus("Could not connect - probably the hostname is wrong.")
-                        failure = true
-                    } catch {
-                        self.updateStatus("Unknown error")
-                        failure = true
-                    }
-                })
-            }
-
-            self.unlockScreen()
-
-            if !failure {
                 self.updateStatus("Uploading complete successfully.")
+
+                sftpSession!.disconnect()
+
+                self.unlockScreen()
 
                 let keychain = KeychainSwift()
 
@@ -196,26 +184,34 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func uploadPhoto(imageData: NSData, index: Int, totalNumber: Int, creationDate: NSDate) throws {
+    func connectAndAuthenticate() -> NMSFTP? {
         let host = self.host.text
         let port = self.port.text
         let username = self.username.text
         let password = self.password.text
+
         let session = NMSSHSession(host: host, port: Int(port!)!, andUsername: username)
 
-        self.updateStatus("Connecting... ", count: index, total: totalNumber)
+        self.updateStatus("Connecting... ")
         session.connect()
         guard session.connected else {
-            throw ConnectionError.NotConnected
+            self.updateStatus("Could not connect - probably the hostname is wrong.")
+            return nil
         }
 
-        self.updateStatus("Authenticating... ", count: index, total: totalNumber)
+        self.updateStatus("Authenticating... ")
         session.authenticateByPassword(password)
         guard session.authorized else {
-            throw ConnectionError.NotAuthorized
+            self.updateStatus("Could not authorize - probably the username or password is wrong.")
+            return nil
         }
 
         let sftpSession = NMSFTP.connectWithSession(session)
+
+        return sftpSession
+    }
+
+    func uploadPhoto(sftpSession: NMSFTP, imageData: NSData, index: Int, totalNumber: Int, creationDate: NSDate) {
         let date = formatDate(creationDate)
 
         let finalFilePath =  self.remoteDir.text! + "/" + date + ".jpg"
@@ -224,17 +220,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber)
         sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
-            progress: { sent in
-                self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(length))
-                return true
+                                  progress: { sent in
+                                    self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(length))
+                                    return true
             }
         )
         self.updateStatus("Moving file to final location...", count: index, total: totalNumber)
         sftpSession.moveItemAtPath(tempFilePath, toPath: finalFilePath)
         self.updateStatus("Done.", count: index, total: totalNumber)
         NSLog(finalFilePath + " successfully written.")
-
-        session.disconnect()
     }
 
     func updateStatus(status: String, count: Int = 0, total: Int = 0, percentage: Float = -1) {
