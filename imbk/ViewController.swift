@@ -240,7 +240,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if total > 0 {
                 self.progressView.progress = Float(count) / Float(total)
                 self.progressView.hidden = false
-                newStatus = status + " (" + String(count) + "/" + String(total) + ")"
+                newStatus = status + " \n(" + String(count) + "/" + String(total) + ")"
             } else {
                 self.progressView.hidden = true
                 newStatus = status
