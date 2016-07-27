@@ -265,7 +265,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }
 
             self.statusLabel.text = newStatus
-            self.statusLabel.sizeToFit()
         }
     }
 
