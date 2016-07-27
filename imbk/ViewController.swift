@@ -71,6 +71,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
+
+        if let completedDate = keychain.get("completedDate") {
+            self.updateStatus("Backup last completed on " +  completedDate)
+        }
     }
 
     func checkAuthorization() {
@@ -180,6 +184,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 keychain.set(self.remoteDir.text!, forKey: "remoteDir")
                 keychain.set(self.username.text!, forKey: "username")
                 keychain.set(self.password.text!, forKey: "password")
+                keychain.set(NSDateFormatter.localizedStringFromDate(NSDate(), dateStyle: .ShortStyle, timeStyle: .ShortStyle), forKey: "completedDate")
 
                 UIApplication.sharedApplication().cancelAllLocalNotifications()
                 UIApplication.sharedApplication().applicationIconBadgeNumber = 0
