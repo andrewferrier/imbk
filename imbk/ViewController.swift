@@ -220,9 +220,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         let finalFilePath =  self.remoteDir.text! + "/" + date + ".jpg"
         let tempFilePath = self.remoteDir.text! + "/.tmp.jpg"
+        let length = imageData.length
 
         self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber)
-        sftpSession.writeContents(imageData, toFileAtPath: tempFilePath)
+        sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
+            progress: { sent in
+                self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(length))
+                return true
+            }
+        )
         self.updateStatus("Moving file to final location...", count: index, total: totalNumber)
         sftpSession.moveItemAtPath(tempFilePath, toPath: finalFilePath)
         self.updateStatus("Done.", count: index, total: totalNumber)
@@ -231,7 +237,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         session.disconnect()
     }
 
-    func updateStatus(status: String, count: Int = 0, total: Int = 0) {
+    func updateStatus(status: String, count: Int = 0, total: Int = 0, percentage: Float = -1) {
         NSLog("Status change: " + status)
 
         dispatch_async(dispatch_get_main_queue()) {
@@ -240,7 +246,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if total > 0 {
                 self.progressView.progress = Float(count) / Float(total)
                 self.progressView.hidden = false
-                newStatus = status + " \n(" + String(count) + "/" + String(total) + ")"
+                newStatus = status + " \n(" + String(count) + "/" + String(total) + " files)"
+                if percentage > 0 {
+                    newStatus = newStatus + " \n(" + String(format: "%.0f", percentage * 100) + "% of file)"
+                }
             } else {
                 self.progressView.hidden = true
                 newStatus = status
