@@ -232,21 +232,32 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         let finalFilePath =  self.remoteDir.text! + "/" + date + "." + originalFileExtension
         let tempFilePath = self.remoteDir.text! + "/.tmp" + "." + originalFileExtension
-        let length = imageData.length
 
-        if sftpSession.fileExistsAtPath(finalFilePath) && skipFilesSwitch.on {
+        let localFileLength = imageData.length
+        let remoteFileLength = sftpSession.infoForFileAtPath(finalFilePath).fileSize
+
+        if sftpSession.fileExistsAtPath(finalFilePath) &&
+            remoteFileLength == localFileLength &&
+            skipFilesSwitch.on {
             NSLog("WARNING: " + finalFilePath + " already exists, skipping.")
             self.updateStatus("WARNING: " + finalFilePath + " already exists, skipping.", count: index, total: totalNumber)
         } else {
             self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber)
-            sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
+            var success = sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
                                       progress: { sent in
-                                        self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(length))
+                                        self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(localFileLength))
                                         return true
                 }
             )
+            assert(success)
+
             self.updateStatus("Moving file to final location...", count: index, total: totalNumber)
-            sftpSession.moveItemAtPath(tempFilePath, toPath: finalFilePath)
+            if sftpSession.fileExistsAtPath(finalFilePath) {
+                sftpSession.removeFileAtPath(finalFilePath)
+            }
+            success = sftpSession.moveItemAtPath(tempFilePath, toPath: finalFilePath)
+            assert(success)
+
             self.updateStatus("Done.", count: index, total: totalNumber)
             NSLog(finalFilePath + " successfully written.")
         }
