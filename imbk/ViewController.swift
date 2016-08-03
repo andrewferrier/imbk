@@ -230,7 +230,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         if sftpSession.fileExistsAtPath(finalFilePath) && skipFilesSwitch.on {
             NSLog("WARNING: " + finalFilePath + " already exists, skipping.")
-            self.updateStatus("WARNING: " + finalFilePath + " already exists, skipping.")
+            self.updateStatus("WARNING: " + finalFilePath + " already exists, skipping.", count: index, total: totalNumber)
         } else {
             self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber)
             sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
