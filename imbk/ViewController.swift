@@ -158,7 +158,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 for asset in assets {
                     counter += 1
 
-                    // Allow since this always comes from PHAsset.fetchAssetsWithMediaType
                     // swiftlint:disable:next force_cast
                     let asset = asset as! PHAsset
 
@@ -221,9 +220,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return sftpSession
     }
 
+    // swiftlint:disable:next function_parameter_count
     func uploadPhoto(sftpSession: NMSFTP, imageData: NSData, info: NSDictionary, index: Int, totalNumber: Int, creationDate: NSDate) {
         let date = formatDate(creationDate)
 
+        // swiftlint:disable:next force_cast
         let originalFilePathURL = info.valueForKey("PHImageFileURLKey") as! NSURL
         let originalFilePathString = originalFilePathURL.absoluteString
         NSLog("Original file path is " + originalFilePathString)
