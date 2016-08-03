@@ -152,7 +152,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBAction func backupPhotos(sender: UIButton) {
         dismissKeyboard()
 
-        let assets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
+        let photoAssets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
+        let videoAssets = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Video, options: nil)
 
         dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
             self.lockScreen()
@@ -164,7 +165,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if sftpSession != nil {
                 var filesToBeKept = Set<String>()
 
-                for asset in assets {
+                for asset in photoAssets {
                     counter += 1
 
                     // swiftlint:disable:next force_cast
@@ -176,12 +177,50 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
                     PHImageManager.defaultManager().requestImageDataForAsset(asset, options: myOptions, resultHandler: {
                         imageData, dataUTI, orientation, info in
-                        let file = self.uploadPhoto(sftpSession!, imageData: imageData!, info: info!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
+                        // swiftlint:disable:next force_cast
+                        let url = (info! as NSDictionary).valueForKey("PHImageFileURLKey") as! NSURL
+
+                        let file = self.uploadFile(sftpSession!, fileData: imageData!, originalURL: url, index: counter, totalNumber: photoAssets.count + videoAssets.count, creationDate: asset.creationDate!)
 
                         if file != nil {
                             filesToBeKept.insert(file!)
                         }
                     })
+                }
+
+                for asset in videoAssets {
+                    counter += 1
+
+                    // Allow since this always comes from PHAsset.fetchAssetsWithMediaType
+                    // swiftlint:disable:next force_cast
+                    let asset = asset as! PHAsset
+
+                    // This request must be synchronous otherwise the resultHandler ends up back on the main thread.
+                    let options = PHVideoRequestOptions()
+                    options.networkAccessAllowed = true
+
+                    let semaphore = dispatch_semaphore_create(0)
+
+                    PHImageManager.defaultManager().requestAVAssetForVideo(asset, options: options, resultHandler: {
+                        videoAsset, audioMix, info in
+                        let urlAsset = videoAsset as? AVURLAsset
+                        if urlAsset != nil {
+                            let url = urlAsset!.URL
+                            NSLog("Video asset URL is " + url.description)
+
+                            let videoData = NSData(contentsOfURL: url)!
+
+                            let file = self.uploadFile(sftpSession!, fileData: videoData, originalURL: url, index: counter, totalNumber: photoAssets.count + videoAssets.count, creationDate: asset.creationDate!)
+
+                            if file != nil {
+                                filesToBeKept.insert(file!)
+                            }
+                        }
+
+                        dispatch_semaphore_signal(semaphore)
+                    })
+
+                    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
                 }
 
                 self.updateStatus("Uploading complete successfully.")
@@ -242,23 +281,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     // swiftlint:disable:next function_parameter_count
-    func uploadPhoto(sftpSession: NMSFTP, imageData: NSData, info: NSDictionary, index: Int, totalNumber: Int, creationDate: NSDate) -> String? {
-        let uniqueFilename = getUniqueFilename(creationDate, imageData: imageData)
+    func uploadFile(sftpSession: NMSFTP, fileData: NSData, originalURL: NSURL, index: Int, totalNumber: Int, creationDate: NSDate) -> String? {
+        let uniqueFilename = getUniqueFilename(creationDate, fileData: fileData)
 
-        // swiftlint:disable:next force_cast
-        let originalFilePathURL = info.valueForKey("PHImageFileURLKey") as! NSURL
-        let originalFilePathString = originalFilePathURL.absoluteString
+        let originalFilePathString = originalURL.absoluteString
         NSLog("Original file path is " + originalFilePathString)
 
-        var originalFileExtension = originalFilePathURL.pathExtension
-
+        var originalFileExtension = originalURL.pathExtension
         originalFileExtension = (originalFileExtension == nil) ? "" : "." + originalFileExtension!
+        NSLog("Original file extension is " + originalFileExtension!)
 
         let finalFileName = uniqueFilename + originalFileExtension!
         let finalFilePath =  self.remoteDir.text! + "/" + finalFileName
         let tempFilePath = self.remoteDir.text! + "/.tmp" + originalFileExtension!
+        NSLog("Final file path is " + finalFilePath)
+        NSLog("Temp file path is " + tempFilePath)
 
-        let localFileLength = imageData.length
+        let localFileLength = fileData.length
 
         if sftpSession.fileExistsAtPath(finalFilePath) &&
             sftpSession.infoForFileAtPath(finalFilePath).fileSize == localFileLength &&
@@ -269,7 +308,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             return finalFileName
         } else {
             self.updateStatus("Uploading " + finalFileName + " to temporary file...", count: index, total: totalNumber)
-            var success = sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
+            var success = sftpSession.writeContents(fileData, toFileAtPath: tempFilePath,
                                       progress: { sent in
                                         self.updateStatus("Uploading " + finalFileName + " to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(localFileLength))
                                         return true
@@ -338,14 +377,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func getUniqueFilename(date: NSDate, imageData: NSData) -> String {
+    func getUniqueFilename(date: NSDate, fileData: NSData) -> String {
         let dateFormatter = NSDateFormatter()
         let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.locale = enUSPosixLocale
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         let formattedDate = dateFormatter.stringFromDate(date)
 
-        let hash = imageData.crc32()
+        let hash = fileData.crc32()
 
         return formattedDate + "_" + hash!.toHexString()
     }
