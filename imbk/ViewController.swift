@@ -168,7 +168,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
                     PHImageManager.defaultManager().requestImageDataForAsset(asset, options: myOptions, resultHandler: {
                         imageData, dataUTI, orientation, info in
-                        self.uploadPhoto(sftpSession!, imageData: imageData!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
+                        self.uploadPhoto(sftpSession!, imageData: imageData!, info: info!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
                     })
                 }
 
@@ -221,11 +221,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return sftpSession
     }
 
-    func uploadPhoto(sftpSession: NMSFTP, imageData: NSData, index: Int, totalNumber: Int, creationDate: NSDate) {
+    func uploadPhoto(sftpSession: NMSFTP, imageData: NSData, info: NSDictionary, index: Int, totalNumber: Int, creationDate: NSDate) {
         let date = formatDate(creationDate)
 
-        let finalFilePath =  self.remoteDir.text! + "/" + date + ".jpg"
-        let tempFilePath = self.remoteDir.text! + "/.tmp.jpg"
+        let originalFilePathURL = info.valueForKey("PHImageFileURLKey") as! NSURL
+        let originalFilePathString = originalFilePathURL.absoluteString
+        NSLog("Original file path is " + originalFilePathString)
+        let originalFileExtension = originalFilePathString.componentsSeparatedByString(".").last!
+
+        let finalFilePath =  self.remoteDir.text! + "/" + date + "." + originalFileExtension
+        let tempFilePath = self.remoteDir.text! + "/.tmp" + "." + originalFileExtension
         let length = imageData.length
 
         if sftpSession.fileExistsAtPath(finalFilePath) && skipFilesSwitch.on {
