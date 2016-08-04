@@ -47,6 +47,8 @@ platform :ios do
         sh "security import Certificates/distribution.p12 -k ~/Library/Keychains/" + keychain_name + " -P $KEY_PASSWORD -T /usr/bin/codesign -T /usr/bin/security"
         sh "security import Certificates/distribution.cer -k ~/Library/Keychains/" + keychain_name + " -T /usr/bin/codesign -T /usr/bin/security"
 
+        sh "/usr/libexec/PlistBuddy -c \"Set BMSAccessKey " + ENV['BMS_ACCESS_KEY'] + "\" ../imbk/Info.plist"
+
         # See https://github.com/facebook/react-native/issues/879#issuecomment-106996742
         sh "/usr/libexec/PlistBuddy -c \"Set CFBundleVersion " + ENV['TRAVIS_BUILD_NUMBER'] + "\" ../imbk/Info.plist"
 

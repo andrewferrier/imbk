@@ -8,12 +8,23 @@
 
 import UIKit
 
+import BMSCore
+import BMSAnalytics
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+
+        NSLog("About to register with Bluemix services")
+        let accessKey = NSBundle.mainBundle().objectForInfoDictionaryKey("BMSAccessKey") as! String
+
+        BMSClient.sharedInstance.initializeWithBluemixAppRoute(nil, bluemixAppGUID: nil, bluemixRegion: BMSClient.REGION_US_SOUTH)
+        Analytics.initializeWithAppName("imbk",  apiKey: accessKey, deviceEvents: DeviceEvent.LIFECYCLE)
+        Analytics.enabled = true
+        Analytics.send()
 
         NSLog("About to ask for permission for notifications.")
 
