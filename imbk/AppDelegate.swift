@@ -19,10 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         NSLog("About to register with Bluemix services")
+        // swiftlint:disable:next force_cast
         let accessKey = NSBundle.mainBundle().objectForInfoDictionaryKey("BMSAccessKey") as! String
 
         BMSClient.sharedInstance.initializeWithBluemixAppRoute(nil, bluemixAppGUID: nil, bluemixRegion: BMSClient.REGION_US_SOUTH)
-        Analytics.initializeWithAppName("imbk",  apiKey: accessKey, deviceEvents: DeviceEvent.LIFECYCLE)
+        Analytics.initializeWithAppName("imbk", apiKey: accessKey, deviceEvents: DeviceEvent.LIFECYCLE)
         Analytics.enabled = true
         Analytics.send()
 
