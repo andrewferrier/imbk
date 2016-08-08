@@ -241,10 +241,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let tempFilePath = self.remoteDir.text! + "/.tmp" + originalFileExtension!
 
         let localFileLength = imageData.length
-        let remoteFileLength = sftpSession.infoForFileAtPath(finalFilePath).fileSize
 
         if sftpSession.fileExistsAtPath(finalFilePath) &&
-            remoteFileLength == localFileLength &&
+            sftpSession.infoForFileAtPath(finalFilePath).fileSize == localFileLength &&
             skipFilesSwitch.on {
             NSLog("WARNING: " + finalFilePath + " already exists, skipping.")
             self.updateStatus("WARNING: " + finalFilePath + " already exists, skipping.", count: index, total: totalNumber)
