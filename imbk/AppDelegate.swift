@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let notification = UILocalNotification()
         notification.timeZone = NSTimeZone.defaultTimeZone()
-        let dateTime = NSDate(timeIntervalSinceNow: 60 * 60 * 24) // 1 day
+        let dateTime = NSDate(timeIntervalSinceNow: 60 * 60 * 24 * 3) // 3 days
         notification.fireDate = dateTime
         notification.alertBody = "Time to backup your photos with imbk!"
         notification.applicationIconBadgeNumber = 1
