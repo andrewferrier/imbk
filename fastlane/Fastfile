@@ -80,4 +80,8 @@ platform :ios do
             notes: last_git_commit[:message] + " (Uploaded automatically via fastlane)"
         )
     end
+
+    lane :outdated do
+        sh "pod outdated"
+    end
 end
