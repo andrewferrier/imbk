@@ -1,9 +1,9 @@
 PODS:
-  - BMSAnalytics (1.0.0):
-    - BMSCore (~> 1.0)
-  - BMSAnalyticsAPI (1.0.1)
-  - BMSCore (1.0.2):
-    - BMSAnalyticsAPI (~> 1.0)
+  - BMSAnalytics (1.1.0):
+    - BMSCore (~> 1.1.0)
+  - BMSAnalyticsAPI (1.1.0)
+  - BMSCore (1.1.0):
+    - BMSAnalyticsAPI (~> 1.1.0)
   - KeychainSwift (3.0.16)
   - NMSSH (2.2.5)
 
@@ -13,9 +13,9 @@ DEPENDENCIES:
   - NMSSH (~> 2.2.5)
 
 SPEC CHECKSUMS:
-  BMSAnalytics: 2bff7491a229376539e7348b4edd42c5ac2ab63d
-  BMSAnalyticsAPI: 50f5cec71a5ad0a9af232a833d6d37c2abda54ac
-  BMSCore: 77ef1d5cfc2cef0bb5662fb4bc14869b226e3ece
+  BMSAnalytics: 9e8ccf205e60a27451f703c2389f91babf74fa2a
+  BMSAnalyticsAPI: ed1d105a9197a6c875adf5a08aad120351004c40
+  BMSCore: f8213c1adcf15166785cdfee3e7776e879c6ad12
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   NMSSH: 8643df89d73b9a3e398a5a5971f6ea4bb1179ea7
 
