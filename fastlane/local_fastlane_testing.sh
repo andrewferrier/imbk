@@ -8,4 +8,4 @@ export HOCKEY_API_TOKEN=XXX
 export HOCKEY_APP_ID=XXX
 export BMS_ACCESS_KEY=XXX
 
-(cd $ABSOLUTE_PATH && ./decrypt_files.sh)
+$ABSOLUTE_PATH/decrypt_files.sh
