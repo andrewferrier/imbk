@@ -8,8 +8,7 @@
 
 import UIKit
 
-import BMSCore
-import BMSAnalytics
+import HockeySDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,18 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
 
-        NSLog("About to register with Bluemix services")
-        // swiftlint:disable:next force_cast
-        let accessKey = NSBundle.mainBundle().objectForInfoDictionaryKey("BMSAccessKey") as! String
+        NSLog("About to authenticate with HockeyApp services")
 
-        BMSClient.sharedInstance.initializeWithBluemixAppRoute(nil, bluemixAppGUID: nil, bluemixRegion: BMSClient.REGION_US_SOUTH)
-        Analytics.initializeWithAppName("imbk", apiKey: accessKey, deviceEvents: DeviceEvent.LIFECYCLE)
-        Analytics.enabled = true
-        Analytics.send()
-
-        // https://console.ng.bluemix.net/docs/services/mobileanalytics/app-monitoring.html#monitor-app-crash
-        Logger.logStoreEnabled = true
-        Logger.send()
+        BITHockeyManager.sharedHockeyManager().configureWithIdentifier("a15ddd8537b64652afe2e1aca26887c9");
+        BITHockeyManager.sharedHockeyManager().startManager();
+        BITHockeyManager.sharedHockeyManager().authenticator.authenticateInstallation();
 
         NSLog("About to ask for permission for notifications.")
 

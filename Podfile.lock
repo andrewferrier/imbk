@@ -1,24 +1,20 @@
 PODS:
-  - BMSAnalytics (1.1.0):
-    - BMSCore (~> 1.1.0)
-  - BMSAnalyticsAPI (1.1.0)
-  - BMSCore (1.1.0):
-    - BMSAnalyticsAPI (~> 1.1.0)
+  - HockeySDK (4.0.2):
+    - HockeySDK/AllFeaturesLib (= 4.0.2)
+  - HockeySDK/AllFeaturesLib (4.0.2)
   - KeychainSwift (3.0.16)
   - NMSSH (2.2.5)
 
 DEPENDENCIES:
-  - BMSAnalytics
+  - HockeySDK
   - KeychainSwift (~> 3.0)
   - NMSSH (~> 2.2.5)
 
 SPEC CHECKSUMS:
-  BMSAnalytics: 9e8ccf205e60a27451f703c2389f91babf74fa2a
-  BMSAnalyticsAPI: ed1d105a9197a6c875adf5a08aad120351004c40
-  BMSCore: f8213c1adcf15166785cdfee3e7776e879c6ad12
+  HockeySDK: ebaabf41808b4e4ea85b4d5266d425aef0d19c88
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   NMSSH: 8643df89d73b9a3e398a5a5971f6ea4bb1179ea7
 
-PODFILE CHECKSUM: bacba8e6515f833dd47078566f1df8d9418d99ff
+PODFILE CHECKSUM: d7159ae11cf84eccf25fdfdc2274e4cc088988c9
 
 COCOAPODS: 1.0.0

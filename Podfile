@@ -5,7 +5,7 @@ target 'imbk' do
   use_frameworks!
 
   # Pods for imbk
-  pod 'BMSAnalytics'
+  pod "HockeySDK"
   pod 'KeychainSwift', '~> 3.0'
   pod 'NMSSH', '~>2.2.5'
 end
