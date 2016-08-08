@@ -25,7 +25,7 @@ platform :ios do
     lane :beta do
         keychain_name = "imbk-certs.keychain"
 
-        cocoapods(repo_update: true)
+        cocoapods()
 
         swiftlint(
             mode: :lint,
