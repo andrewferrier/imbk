@@ -228,10 +228,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let originalFilePathURL = info.valueForKey("PHImageFileURLKey") as! NSURL
         let originalFilePathString = originalFilePathURL.absoluteString
         NSLog("Original file path is " + originalFilePathString)
-        let originalFileExtension = originalFilePathString.componentsSeparatedByString(".").last!
 
-        let finalFilePath =  self.remoteDir.text! + "/" + date + "." + originalFileExtension
-        let tempFilePath = self.remoteDir.text! + "/.tmp" + "." + originalFileExtension
+        var originalFileExtension = originalFilePathURL.pathExtension
+
+        if(originalFileExtension == nil) {
+            originalFileExtension = ""
+        } else {
+            originalFileExtension = "." + originalFileExtension!
+        }
+
+        let finalFilePath =  self.remoteDir.text! + "/" + date + originalFileExtension!
+        let tempFilePath = self.remoteDir.text! + "/.tmp" + originalFileExtension!
 
         let localFileLength = imageData.length
         let remoteFileLength = sftpSession.infoForFileAtPath(finalFilePath).fileSize
