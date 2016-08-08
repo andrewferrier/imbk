@@ -27,6 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Analytics.enabled = true
         Analytics.send()
 
+        // https://console.ng.bluemix.net/docs/services/mobileanalytics/app-monitoring.html#monitor-app-crash
+        Logger.logStoreEnabled = true
+        Logger.send()
+
         NSLog("About to ask for permission for notifications.")
 
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [UIUserNotificationType.Sound, UIUserNotificationType.Alert,
