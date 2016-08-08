@@ -231,7 +231,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         var originalFileExtension = originalFilePathURL.pathExtension
 
-        if(originalFileExtension == nil) {
+        if originalFileExtension == nil {
             originalFileExtension = ""
         } else {
             originalFileExtension = "." + originalFileExtension!

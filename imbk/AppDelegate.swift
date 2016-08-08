@@ -19,9 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         NSLog("About to authenticate with HockeyApp services")
 
-        BITHockeyManager.sharedHockeyManager().configureWithIdentifier("a15ddd8537b64652afe2e1aca26887c9");
-        BITHockeyManager.sharedHockeyManager().startManager();
-        BITHockeyManager.sharedHockeyManager().authenticator.authenticateInstallation();
+        BITHockeyManager.sharedHockeyManager().configureWithIdentifier("a15ddd8537b64652afe2e1aca26887c9")
+        BITHockeyManager.sharedHockeyManager().startManager()
+        BITHockeyManager.sharedHockeyManager().authenticator.authenticateInstallation()
 
         NSLog("About to ask for permission for notifications.")
 
