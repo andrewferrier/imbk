@@ -28,10 +28,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var remoteDir: UITextField!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var backupPhotosButton: UIButton!
     @IBOutlet weak var skipFilesSwitch: UISwitch!
+    @IBOutlet weak var statusText: UITextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.password.delegate = self
         self.remoteDir.delegate = self
 
-        self.updateStatus("")
+        self.statusText.text = ""
 
         let keychain = KeychainSwift()
 
@@ -257,7 +257,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             )
             assert(success)
 
-            self.updateStatus("Moving file to final location...", count: index, total: totalNumber)
+            self.updateStatus("Moving temporary file to " + finalFilePath + "...", count: index, total: totalNumber)
             if sftpSession.fileExistsAtPath(finalFilePath) {
                 sftpSession.removeFileAtPath(finalFilePath)
             }
@@ -287,7 +287,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 newStatus = status
             }
 
-            self.statusLabel.text = newStatus
+            self.statusText.text = newStatus + "\n" + self.statusText.text
         }
     }
 
