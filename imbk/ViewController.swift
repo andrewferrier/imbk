@@ -231,13 +231,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         var originalFileExtension = originalFilePathURL.pathExtension
 
-        if originalFileExtension == nil {
-            originalFileExtension = ""
-        } else {
-            originalFileExtension = "." + originalFileExtension!
-        }
+        originalFileExtension = (originalFileExtension == nil) ? "" : "." + originalFileExtension!
 
-        let finalFilePath =  self.remoteDir.text! + "/" + date + originalFileExtension!
+        let finalFileName = date + originalFileExtension!
+        let finalFilePath =  self.remoteDir.text! + "/" + finalFileName
         let tempFilePath = self.remoteDir.text! + "/.tmp" + originalFileExtension!
 
         let localFileLength = imageData.length
@@ -248,10 +245,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             NSLog("WARNING: " + finalFilePath + " already exists, skipping.")
             self.updateStatus("WARNING: " + finalFilePath + " already exists, skipping.", count: index, total: totalNumber)
         } else {
-            self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber)
+            self.updateStatus("Uploading " + finalFileName + " to temporary file...", count: index, total: totalNumber)
             var success = sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
                                       progress: { sent in
-                                        self.updateStatus("Uploading to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(localFileLength))
+                                        self.updateStatus("Uploading " + finalFileName + " to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(localFileLength))
                                         return true
                 }
             )
