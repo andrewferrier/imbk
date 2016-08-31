@@ -10,6 +10,7 @@ import UIKit
 import Photos
 import NMSSH
 import KeychainSwift
+import CryptoSwift
 
 extension PHFetchResult: SequenceType {
     public func generate() -> NSFastGenerator {
@@ -222,7 +223,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     // swiftlint:disable:next function_parameter_count
     func uploadPhoto(sftpSession: NMSFTP, imageData: NSData, info: NSDictionary, index: Int, totalNumber: Int, creationDate: NSDate) {
-        let date = formatDate(creationDate)
+        let uniqueFilename = getUniqueFilename(creationDate, imageData: imageData)
 
         // swiftlint:disable:next force_cast
         let originalFilePathURL = info.valueForKey("PHImageFileURLKey") as! NSURL
@@ -233,7 +234,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         originalFileExtension = (originalFileExtension == nil) ? "" : "." + originalFileExtension!
 
-        let finalFileName = date + originalFileExtension!
+        let finalFileName = uniqueFilename + originalFileExtension!
         let finalFilePath =  self.remoteDir.text! + "/" + finalFileName
         let tempFilePath = self.remoteDir.text! + "/.tmp" + originalFileExtension!
 
@@ -288,12 +289,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func formatDate(date: NSDate) -> String {
+    func getUniqueFilename(date: NSDate, imageData: NSData) -> String {
         let dateFormatter = NSDateFormatter()
         let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.locale = enUSPosixLocale
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        return dateFormatter.stringFromDate(date)
+        let formattedDate = dateFormatter.stringFromDate(date)
+
+        let hash = imageData.crc32()
+
+        return formattedDate + "_" + hash!.toHexString()
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {

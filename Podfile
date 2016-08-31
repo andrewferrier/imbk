@@ -8,4 +8,5 @@ target 'imbk' do
   pod "HockeySDK"
   pod 'KeychainSwift', '~> 3.0'
   pod 'NMSSH', '~>2.2.5'
+  pod 'CryptoSwift'
 end
