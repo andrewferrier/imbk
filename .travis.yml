@@ -5,8 +5,8 @@ before_install:
   - gem install xcpretty -N --no-ri --no-rdoc
   - gem uninstall json --version 2.0.1 # https://github.com/fastlane/fastlane/issues/5393
   - brew update
-  - brew install swiftlint
-  - brew install imagemagick
+  - brew upgrade swiftlint || brew install swiftlint
+  - brew upgrade imagemagick || brew install imagemagick
   - pod repo update
 before_script:
   - fastlane/decrypt_files.sh
