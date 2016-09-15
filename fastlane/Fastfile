@@ -68,7 +68,7 @@ platform :ios do
     end
 
     lane :tailor do
-        sh "tailor"
+        sh "tailor ."
     end
 
     lane :upload do
