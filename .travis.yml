@@ -15,7 +15,6 @@ script:
   - fastlane outdated
   - fastlane beta
   - fastlane upload
-  - fastlane tailor
 notifications:
   email:
     recipients:
