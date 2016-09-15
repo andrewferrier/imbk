@@ -33,7 +33,7 @@ platform :ios do
             ignore_exit_status: false
         )
 
-        sh "command -v tailor >/dev/null 2>&1 && tailor imbk/*.swift"
+        sh "command -v tailor >/dev/null 2>&1 && tailor ../imbk/*.swift"
 
         sh "./prepare_icons.sh"
 
