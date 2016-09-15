@@ -7,6 +7,7 @@ before_install:
   - brew update
   - brew upgrade swiftlint || brew install swiftlint
   - brew upgrade imagemagick || brew install imagemagick
+  - brew upgrade tailor || brew install tailor
   - pod repo update
 before_script:
   - fastlane/decrypt_files.sh
@@ -14,6 +15,7 @@ script:
   - fastlane outdated
   - fastlane beta
   - fastlane upload
+  - fastlane tailor
 notifications:
   email:
     recipients:

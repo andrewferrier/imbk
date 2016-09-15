@@ -67,6 +67,10 @@ platform :ios do
         )
     end
 
+    lane :tailor do
+        sh "tailor"
+    end
+
     lane :upload do
         # Push to Hockey
         hockey(
