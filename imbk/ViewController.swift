@@ -80,6 +80,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
 
         self.deleteFilesSwitch.setOn(false, animated: false)
+
+        self.statusText.contentInset = UIEdgeInsetsMake(0, -self.statusText.textContainer.lineFragmentPadding, 0, -self.statusText.textContainer.lineFragmentPadding);
     }
 
     func checkAuthorization() {
