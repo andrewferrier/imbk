@@ -64,19 +64,16 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z6h-fj-HF2">
-                                <rect key="frame" x="-91" y="0.0" width="600" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="600" id="90p-G2-ARl"/>
-                                </constraints>
-                            </navigationBar>
                             <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gc5-VT-E7M">
                                 <rect key="frame" x="120" y="85" width="460" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                             </textField>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v3l-bn-5Zt">
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3l-bn-5Zt">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <offsetWrapper key="textShadowOffset" horizontal="0.0" vertical="0.0"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="imbk" id="7DE-5A-EM2"/>
                                 </items>
@@ -148,7 +145,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="GSM-wJ-1Xf" secondAttribute="trailing" id="b98-xM-mcD"/>
                             <constraint firstItem="gc5-VT-E7M" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="cyN-fW-FYB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="S3i-V2-D1r" secondAttribute="trailing" id="dgW-3Q-pua"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="z6h-fj-HF2" secondAttribute="trailing" constant="71" id="ecF-Tl-kCS"/>
                             <constraint firstItem="v3l-bn-5Zt" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="fcd-rE-WBJ"/>
                             <constraint firstItem="7fw-5h-0gj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="fmh-jo-Qh8"/>
                             <constraint firstItem="gc5-VT-E7M" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="65" id="gXg-r2-ecw"/>
@@ -157,7 +153,6 @@
                             <constraint firstItem="jfC-Bh-qcw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nm1-6j-BlR"/>
                             <constraint firstItem="hUl-3U-doV" firstAttribute="leading" secondItem="mcz-ro-Nbf" secondAttribute="leading" id="ppU-X6-jHK"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jfC-Bh-qcw" secondAttribute="bottom" constant="12" id="pvB-H8-1Nv"/>
-                            <constraint firstItem="z6h-fj-HF2" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="spl-Af-V7s"/>
                             <constraint firstItem="mcz-ro-Nbf" firstAttribute="leading" secondItem="qhC-Fy-Nn1" secondAttribute="leading" id="tSH-Eg-3Py"/>
                             <constraint firstItem="v3l-bn-5Zt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tgE-Gw-dVR"/>
                             <constraint firstItem="GSM-wJ-1Xf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="345" id="v9Q-PP-bCa"/>
