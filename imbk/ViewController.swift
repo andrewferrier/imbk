@@ -32,6 +32,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var backupPhotosButton: UIButton!
     @IBOutlet weak var skipFilesSwitch: UISwitch!
+    @IBOutlet weak var deleteFilesSwitch: UISwitch!
     @IBOutlet weak var statusText: UITextView!
 
     override func viewDidLoad() {
@@ -77,6 +78,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if let completedDate = keychain.get("completedDate") {
             self.updateStatus("Backup last completed on " +  completedDate)
         }
+
+        self.deleteFilesSwitch.setOn(false, animated: false)
     }
 
     func checkAuthorization() {
@@ -156,6 +159,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let sftpSession = self.connectAndAuthenticate()
 
             if sftpSession != nil {
+                var filesToBeKept = Set<String>()
+
                 for asset in assets {
                     counter += 1
 
@@ -168,11 +173,39 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
                     PHImageManager.defaultManager().requestImageDataForAsset(asset, options: myOptions, resultHandler: {
                         imageData, dataUTI, orientation, info in
-                        self.uploadPhoto(sftpSession!, imageData: imageData!, info: info!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
+                        let file = self.uploadPhoto(sftpSession!, imageData: imageData!, info: info!, index: counter, totalNumber: assets.count, creationDate: asset.creationDate!)
+
+                        if file != nil {
+                            filesToBeKept.insert(file!)
+                        }
                     })
                 }
 
                 self.updateStatus("Uploading complete successfully.")
+
+                if(self.deleteFilesSwitch.on) {
+                    NSLog("Set of files to be kept: " + filesToBeKept.joinWithSeparator(", "))
+
+                    let remoteDirectoryListing = sftpSession!.contentsOfDirectoryAtPath(self.remoteDir.text!)
+                    var filesAlreadyRemote = Set<String>()
+                    for remoteFile in remoteDirectoryListing as! [NMSFTPFile] {
+                        if !remoteFile.isDirectory {
+                            filesAlreadyRemote.insert(remoteFile.filename)
+                        }
+                    }
+
+                    NSLog("Remote directory listing: " + filesAlreadyRemote.joinWithSeparator(", "))
+
+                    let filesToRemove = filesAlreadyRemote.subtract(filesToBeKept)
+
+                    NSLog("Files to remove: " + filesToRemove.joinWithSeparator(", "))
+
+                    for fileToRemove in filesToRemove {
+                        let fullFilePath = self.remoteDir.text! + "/" + fileToRemove
+                        self.updateStatus("Removing remote file " + fullFilePath)
+                        sftpSession!.removeFileAtPath(fullFilePath)
+                    }
+                }
 
                 sftpSession!.disconnect()
 
@@ -222,7 +255,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     // swiftlint:disable:next function_parameter_count
-    func uploadPhoto(sftpSession: NMSFTP, imageData: NSData, info: NSDictionary, index: Int, totalNumber: Int, creationDate: NSDate) {
+    func uploadPhoto(sftpSession: NMSFTP, imageData: NSData, info: NSDictionary, index: Int, totalNumber: Int, creationDate: NSDate) -> String? {
         let uniqueFilename = getUniqueFilename(creationDate, imageData: imageData)
 
         // swiftlint:disable:next force_cast
@@ -245,6 +278,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             skipFilesSwitch.on {
             NSLog("WARNING: " + finalFilePath + " already exists, skipping.")
             self.updateStatus("WARNING: " + finalFilePath + " already exists, skipping.", count: index, total: totalNumber)
+
+            return finalFileName
         } else {
             self.updateStatus("Uploading " + finalFileName + " to temporary file...", count: index, total: totalNumber)
             var success = sftpSession.writeContents(imageData, toFileAtPath: tempFilePath,
@@ -264,6 +299,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
             self.updateStatus("Done.", count: index, total: totalNumber)
             NSLog(finalFilePath + " successfully written.")
+
+            return finalFileName
         }
     }
 

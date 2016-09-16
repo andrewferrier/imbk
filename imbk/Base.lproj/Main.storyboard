@@ -89,26 +89,35 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="GSM-wJ-1Xf">
-                                <rect key="frame" x="192" y="365" width="388" height="2"/>
+                                <rect key="frame" x="192" y="405" width="388" height="2"/>
                             </progressView>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ebi-oz-CUK">
                                 <rect key="frame" x="531" y="284" width="51" height="31"/>
                             </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yM3-yr-yob" userLabel="Delete Files Switch">
+                                <rect key="frame" x="531" y="324" width="51" height="31"/>
+                            </switch>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jfC-Bh-qcw">
-                                <rect key="frame" x="20" y="390" width="560" height="198"/>
+                                <rect key="frame" x="20" y="430" width="560" height="158"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHg-Es-ey7">
-                                <rect key="frame" x="20" y="338" width="155" height="56"/>
+                                <rect key="frame" x="20" y="386" width="155" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Backup Photos"/>
                                 <connections>
                                     <action selector="backupPhotos:" destination="BYZ-38-t0r" eventType="touchUpInside" id="63d-M5-MlX"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete Files Not Present Locally" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eG0-MY-6ci">
+                                <rect key="frame" x="20" y="329.5" width="242" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -116,7 +125,8 @@
                             <constraint firstAttribute="trailingMargin" secondItem="9ce-wV-Pja" secondAttribute="trailing" id="1s3-yo-6LL"/>
                             <constraint firstItem="gc5-VT-E7M" firstAttribute="leading" secondItem="hUl-3U-doV" secondAttribute="trailing" constant="58" id="59w-n6-rxN"/>
                             <constraint firstItem="PLy-ej-YmD" firstAttribute="top" secondItem="qhC-Fy-Nn1" secondAttribute="bottom" constant="10" id="6K1-3a-pBN"/>
-                            <constraint firstItem="jfC-Bh-qcw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="370" id="8Bn-ic-gMs"/>
+                            <constraint firstItem="jfC-Bh-qcw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="410" id="8Bn-ic-gMs"/>
+                            <constraint firstItem="eG0-MY-6ci" firstAttribute="centerY" secondItem="yM3-yr-yob" secondAttribute="centerY" id="A3H-ah-qhH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="v3l-bn-5Zt" secondAttribute="trailing" constant="-20" id="ARd-Zu-PQk"/>
                             <constraint firstItem="S3i-V2-D1r" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="100" id="CLj-6T-sBs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7fw-5h-0gj" secondAttribute="trailing" id="CxH-DM-2PR"/>
@@ -135,10 +145,13 @@
                             <constraint firstAttribute="trailingMargin" secondItem="gc5-VT-E7M" secondAttribute="trailing" id="OgK-Zh-PCi"/>
                             <constraint firstItem="PLy-ej-YmD" firstAttribute="leading" secondItem="JG8-cp-Uas" secondAttribute="leading" id="P23-QO-XFP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vfJ-DP-ny8" secondAttribute="trailing" id="PVO-An-GPo"/>
+                            <constraint firstItem="yM3-yr-yob" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="304" id="PZm-D0-Ogm"/>
                             <constraint firstItem="Y7y-Vg-Epz" firstAttribute="leading" secondItem="rHg-Es-ey7" secondAttribute="leading" id="Pu3-IS-Qc2"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="eG0-MY-6ci" secondAttribute="leading" id="Qhg-of-hEL"/>
                             <constraint firstItem="rHg-Es-ey7" firstAttribute="centerY" secondItem="GSM-wJ-1Xf" secondAttribute="centerY" id="RkF-mz-bmi"/>
                             <constraint firstItem="hUl-3U-doV" firstAttribute="centerY" secondItem="gc5-VT-E7M" secondAttribute="centerY" id="Rkg-7K-vwA"/>
                             <constraint firstItem="JG8-cp-Uas" firstAttribute="centerY" secondItem="vfJ-DP-ny8" secondAttribute="centerY" id="Ss2-nk-ZK0"/>
+                            <constraint firstItem="yM3-yr-yob" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="511" id="TeR-n1-Dq5"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jfC-Bh-qcw" secondAttribute="trailing" id="UOq-6q-qCI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ebi-oz-CUK" secondAttribute="trailing" id="Vj4-u6-uWH"/>
                             <constraint firstItem="S3i-V2-D1r" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="145" id="WHY-yl-bxU"/>
@@ -155,13 +168,21 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jfC-Bh-qcw" secondAttribute="bottom" constant="12" id="pvB-H8-1Nv"/>
                             <constraint firstItem="mcz-ro-Nbf" firstAttribute="leading" secondItem="qhC-Fy-Nn1" secondAttribute="leading" id="tSH-Eg-3Py"/>
                             <constraint firstItem="v3l-bn-5Zt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tgE-Gw-dVR"/>
-                            <constraint firstItem="GSM-wJ-1Xf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="345" id="v9Q-PP-bCa"/>
+                            <constraint firstItem="GSM-wJ-1Xf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="385" id="v9Q-PP-bCa"/>
                             <constraint firstItem="9ce-wV-Pja" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="105" id="wb2-0i-GZ4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="yM3-yr-yob" secondAttribute="trailing" id="x1p-3X-1E4"/>
                             <constraint firstItem="rHg-Es-ey7" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="318" id="yVV-fU-2Lc"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="yVV-fU-2Lc"/>
+                                <exclude reference="TeR-n1-Dq5"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="backupPhotosButton" destination="rHg-Es-ey7" id="45T-84-fyU"/>
+                        <outlet property="deleteFilesSwitch" destination="yM3-yr-yob" id="6sJ-zf-nEm"/>
                         <outlet property="host" destination="gc5-VT-E7M" id="Grs-Fv-1Cf"/>
                         <outlet property="password" destination="vfJ-DP-ny8" id="czD-Dl-kvr"/>
                         <outlet property="port" destination="9ce-wV-Pja" id="6v6-6h-gGr"/>
