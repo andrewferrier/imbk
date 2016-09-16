@@ -23,6 +23,7 @@ enum ConnectionError: ErrorType {
     case NotAuthorized
 }
 
+// swiftlint:disable:next type_body_length
 class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var host: UITextField!
     @IBOutlet weak var port: UITextField!
@@ -81,7 +82,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         self.deleteFilesSwitch.setOn(false, animated: false)
 
-        self.statusText.contentInset = UIEdgeInsetsMake(0, -self.statusText.textContainer.lineFragmentPadding, 0, -self.statusText.textContainer.lineFragmentPadding);
+        self.statusText.contentInset = UIEdgeInsets(top: 0, left: -self.statusText.textContainer.lineFragmentPadding, bottom: 0, right: -self.statusText.textContainer.lineFragmentPadding)
     }
 
     func checkAuthorization() {
@@ -185,28 +186,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
                 self.updateStatus("Uploading complete successfully.")
 
-                if(self.deleteFilesSwitch.on) {
-                    NSLog("Set of files to be kept: " + filesToBeKept.joinWithSeparator(", "))
-
-                    let remoteDirectoryListing = sftpSession!.contentsOfDirectoryAtPath(self.remoteDir.text!)
-                    var filesAlreadyRemote = Set<String>()
-                    for remoteFile in remoteDirectoryListing as! [NMSFTPFile] {
-                        if !remoteFile.isDirectory {
-                            filesAlreadyRemote.insert(remoteFile.filename)
-                        }
-                    }
-
-                    NSLog("Remote directory listing: " + filesAlreadyRemote.joinWithSeparator(", "))
-
-                    let filesToRemove = filesAlreadyRemote.subtract(filesToBeKept)
-
-                    NSLog("Files to remove: " + filesToRemove.joinWithSeparator(", "))
-
-                    for fileToRemove in filesToRemove {
-                        let fullFilePath = self.remoteDir.text! + "/" + fileToRemove
-                        self.updateStatus("Removing remote file " + fullFilePath)
-                        sftpSession!.removeFileAtPath(fullFilePath)
-                    }
+                if self.deleteFilesSwitch.on {
+                    self.deleteRemotePhotos(sftpSession!, filesToBeKept: filesToBeKept)
                 }
 
                 self.updateStatus("Disconnecting...")
@@ -307,6 +288,31 @@ class ViewController: UIViewController, UITextFieldDelegate {
             NSLog(finalFilePath + " successfully written.")
 
             return finalFileName
+        }
+    }
+
+    func deleteRemotePhotos(sftpSession: NMSFTP, filesToBeKept: Set<String>) {
+        NSLog("Set of files to be kept: " + filesToBeKept.joinWithSeparator(", "))
+
+        let remoteDirectoryListing = sftpSession.contentsOfDirectoryAtPath(self.remoteDir.text!)
+        var filesAlreadyRemote = Set<String>()
+        // swiftlint:disable:next force_cast
+        for remoteFile in remoteDirectoryListing as! [NMSFTPFile] {
+            if !remoteFile.isDirectory {
+                filesAlreadyRemote.insert(remoteFile.filename)
+            }
+        }
+
+        NSLog("Remote directory listing: " + filesAlreadyRemote.joinWithSeparator(", "))
+
+        let filesToRemove = filesAlreadyRemote.subtract(filesToBeKept)
+
+        NSLog("Files to remove: " + filesToRemove.joinWithSeparator(", "))
+
+        for fileToRemove in filesToRemove {
+            let fullFilePath = self.remoteDir.text! + "/" + fileToRemove
+            self.updateStatus("Removing remote file " + fullFilePath)
+            sftpSession.removeFileAtPath(fullFilePath)
         }
     }
 
