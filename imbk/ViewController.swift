@@ -209,6 +209,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     }
                 }
 
+                self.updateStatus("Disconnecting...")
+
                 sftpSession!.disconnect()
 
                 self.unlockScreen()
@@ -225,6 +227,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 UIApplication.sharedApplication().cancelAllLocalNotifications()
                 UIApplication.sharedApplication().applicationIconBadgeNumber = 0
                 NSLog("All local notifications cancelled.")
+
+                self.updateStatus("Backup complete.")
             }
         }
     }
