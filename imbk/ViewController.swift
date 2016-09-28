@@ -85,6 +85,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.statusText.contentInset = UIEdgeInsets(top: 0, left: -self.statusText.textContainer.lineFragmentPadding, bottom: 0, right: -self.statusText.textContainer.lineFragmentPadding)
     }
 
+    func setKeychainValues() {
+        let keychain = KeychainSwift()
+
+        keychain.set(self.host.text!, forKey: "host")
+        keychain.set(self.port.text!, forKey: "port")
+        keychain.set(self.remoteDir.text!, forKey: "remoteDir")
+        keychain.set(self.username.text!, forKey: "username")
+        keychain.set(self.password.text!, forKey: "password")
+        keychain.set(NSDateFormatter.localizedStringFromDate(NSDate(), dateStyle: .ShortStyle, timeStyle: .ShortStyle), forKey: "completedDate")
+    }
+
     func checkAuthorization() {
         let currentStatus = PHPhotoLibrary.authorizationStatus()
 
@@ -234,15 +245,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 sftpSession!.disconnect()
 
                 self.unlockScreen()
-
-                let keychain = KeychainSwift()
-
-                keychain.set(self.host.text!, forKey: "host")
-                keychain.set(self.port.text!, forKey: "port")
-                keychain.set(self.remoteDir.text!, forKey: "remoteDir")
-                keychain.set(self.username.text!, forKey: "username")
-                keychain.set(self.password.text!, forKey: "password")
-                keychain.set(NSDateFormatter.localizedStringFromDate(NSDate(), dateStyle: .ShortStyle, timeStyle: .ShortStyle), forKey: "completedDate")
+                self.setKeychainValues()
 
                 UIApplication.sharedApplication().cancelAllLocalNotifications()
                 UIApplication.sharedApplication().applicationIconBadgeNumber = 0
