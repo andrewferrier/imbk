@@ -2,3 +2,5 @@ disabled_rules:
   - line_length
 excluded:
   - Pods
+function_body_length: 75
+file_length: 500
