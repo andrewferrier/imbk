@@ -113,7 +113,6 @@
 				ED27CC06AFF19A816949492C /* 📦 Embed Pods Frameworks */,
 				222700C38EB40B7D7F5D5C68 /* 📦 Copy Pods Resources */,
 				49CFBF35626E0B8908E021D9 /* Warn for TODO and FIXME comments */,
-				444CA11BA3FAD8FCEB0BD1F7 /* Set version number */,
 			);
 			buildRules = (
 			);
@@ -185,20 +184,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-imbk/Pods-imbk-resources.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		444CA11BA3FAD8FCEB0BD1F7 /* Set version number */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Set version number";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "git=$(sh /etc/profile; which git)\ngit_release_version=$(\"$git\" describe --tags --always --abbrev=0)\nnumber_of_commits=$(\"$git\" rev-list master --count)\ntarget_plist=\"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\ndsym_plist=\"$DWARF_DSYM_FOLDER_PATH/$DWARF_DSYM_FILE_NAME/Contents/Info.plist\"\n\nfor plist in \"$target_plist\" \"$dsym_plist\"; do\n  if [ -f \"$plist\" ]; then\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $number_of_commits\" \"$plist\"\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString ${git_release_version#*v}\" \"$plist\"\n  fi\ndone\n";
 		};
 		49CFBF35626E0B8908E021D9 /* Warn for TODO and FIXME comments */ = {
 			isa = PBXShellScriptBuildPhase;
