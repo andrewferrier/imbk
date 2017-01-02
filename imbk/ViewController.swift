@@ -37,7 +37,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var statusText: UITextView!
 
     // Limit CRCs to the first megabyte; this should be sufficient to ensure uniqueness.
-    let MAX_CRC_LENGTH = 1024 * 1024;
+    let maxCrcLength = 1024 * 1024
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -386,8 +386,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func getUniqueFilename(date: NSDate, fileData: NSData) -> String {
         var fileDataForCRC: NSData
 
-        if(fileData.length > MAX_CRC_LENGTH) {
-            fileDataForCRC = fileData.subdataWithRange(NSMakeRange(0, MAX_CRC_LENGTH))
+        if fileData.length > maxCrcLength {
+            fileDataForCRC = fileData.subdataWithRange(NSRange(location: 0, length: maxCrcLength))
         } else {
             fileDataForCRC = fileData
         }
