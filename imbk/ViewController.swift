@@ -146,6 +146,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         remoteDir.enabled = false
         username.enabled = false
         password.enabled = false
+        backupPhotosButton.enabled = false
     }
 
     func unlockScreen() {
@@ -156,6 +157,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         remoteDir.enabled = true
         username.enabled = true
         password.enabled = true
+        backupPhotosButton.enabled = true
     }
 
     override func didReceiveMemoryWarning() {
