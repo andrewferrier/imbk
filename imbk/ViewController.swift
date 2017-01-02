@@ -36,6 +36,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var deleteFilesSwitch: UISwitch!
     @IBOutlet weak var statusText: UITextView!
 
+    // Limit CRCs to the first megabyte; this should be sufficient to ensure uniqueness.
+    let MAX_CRC_LENGTH = 1024 * 1024;
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -381,13 +384,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     func getUniqueFilename(date: NSDate, fileData: NSData) -> String {
+        var fileDataForCRC: NSData
+
+        if(fileData.length > MAX_CRC_LENGTH) {
+            fileDataForCRC = fileData.subdataWithRange(NSMakeRange(0, MAX_CRC_LENGTH))
+        } else {
+            fileDataForCRC = fileData
+        }
+
         let dateFormatter = NSDateFormatter()
         let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.locale = enUSPosixLocale
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         let formattedDate = dateFormatter.stringFromDate(date)
 
-        let hash = fileData.crc32()
+        let hash = fileDataForCRC.crc32()
 
         return formattedDate + "_" + hash!.toHexString()
     }
