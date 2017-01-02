@@ -18,6 +18,16 @@ extension PHFetchResult: SequenceType {
     }
 }
 
+extension String {
+    func truncate(length: Int) -> String {
+        if self.characters.count > length {
+            return self.substringToIndex(self.startIndex.advancedBy(length - 1))
+        } else {
+            return self
+        }
+    }
+}
+
 enum ConnectionError: ErrorType {
     case NotConnected
     case NotAuthorized
@@ -38,6 +48,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     // Limit CRCs to the first megabyte; this should be sufficient to ensure uniqueness.
     let maxCrcLength = 1024 * 1024
+
+    // Limit length of status text box
+    let maxStatusLength = 1024 * 100
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -381,7 +394,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 newStatus = status
             }
 
-            self.statusText.text = newStatus + "\n" + self.statusText.text
+            newStatus = newStatus + "\n" + self.statusText.text
+            newStatus.truncate(self.maxStatusLength)
+
+            self.statusText.text = newStatus
         }
     }
 
