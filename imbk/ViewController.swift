@@ -51,6 +51,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     // Limit length of status text box
     let maxStatusLength = 1024 * 100
+    let progressInterval = 0.5;
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -329,10 +330,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
             return finalFileName
         } else {
             self.updateStatus("Uploading " + finalFileName + " to temporary file...", count: index, total: totalNumber)
+
+            let fileSizeForDisplay = fileSizeDisplay(fileData.length)
+
+            var lastUpdateTime = CFAbsoluteTimeGetCurrent()
+
             var success = sftpSession.writeContents(fileData, toFileAtPath: tempFilePath,
-                                      progress: { sent in
-                                        self.updateStatus("Uploading " + finalFileName + " to temporary file...", count: index, total: totalNumber, percentage: Float(sent) / Float(localFileLength))
-                                        return true
+                                                    progress: { sent in
+                                                        let difference = CFAbsoluteTimeGetCurrent() - lastUpdateTime
+
+                                                        if(difference > self.progressInterval) {
+                                                            self.updateStatus("Uploading " + finalFileName + " to temporary file...", fileSize: fileSizeForDisplay, count: index, total: totalNumber, percentage: Float(sent) / Float(localFileLength))
+
+                                                            lastUpdateTime = CFAbsoluteTimeGetCurrent()
+                                                        }
+
+                                                        return true
                 }
             )
             assert(success)
@@ -376,7 +389,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func updateStatus(status: String, count: Int = 0, total: Int = 0, percentage: Float = -1) {
+    func updateStatus(status: String, count: Int = 0, total: Int = 0, percentage: Float = -1, fileSize: String = "Unknown size") {
         NSLog("Status change: " + status)
 
         dispatch_async(dispatch_get_main_queue()) {
@@ -387,7 +400,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 self.progressView.hidden = false
                 newStatus = status + " \n(" + String(count) + "/" + String(total) + " files)"
                 if percentage > 0 {
-                    newStatus = newStatus + " \n(" + String(format: "%.0f", percentage * 100) + "% of file)"
+                    newStatus = newStatus + " \n(" + String(format: "%.0f", percentage * 100) + "% of file - " + fileSize + ")"
                 }
             } else {
                 self.progressView.hidden = true
@@ -433,5 +446,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
 
         return false // We do not want UITextField to insert line-breaks.
+    }
+
+    // Adapted from http://stackoverflow.com/a/40279734/27641
+    func fileSizeDisplay(length:Int) -> String {
+        let display = ["bytes", "KiB", "MiB", "GiB", "TiB"]
+        var value:Double = Double(length)
+        var type = 0
+        while (value > 1024){
+            value /= 1024
+            type = type + 1
+
+        }
+
+        return "\(String(format:"%.2g", value)) \(display[type])"
     }
 }
