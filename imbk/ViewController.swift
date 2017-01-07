@@ -51,7 +51,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     // Limit length of status text box
     let maxStatusLength = 1024 * 100
-    let progressInterval = 0.5;
+    let progressInterval = 0.5
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -343,7 +343,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                                     progress: { sent in
                                                         let difference = CFAbsoluteTimeGetCurrent() - lastUpdateTime
 
-                                                        if(difference > self.progressInterval) {
+                                                        if difference > self.progressInterval {
                                                             self.updateStatus("Uploading " + finalFileName + " to temporary file...", fileSize: fileSizeForDisplay, count: index, total: totalNumber, percentage: Float(sent) / Float(localFileLength))
 
                                                             lastUpdateTime = CFAbsoluteTimeGetCurrent()
@@ -453,11 +453,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     // Adapted from http://stackoverflow.com/a/40279734/27641
-    func fileSizeDisplay(length:Int) -> String {
+    func fileSizeDisplay(length: Int) -> String {
         let display = ["bytes", "KiB", "MiB", "GiB", "TiB"]
-        var value:Double = Double(length)
+        var value: Double = Double(length)
         var type = 0
-        while (value > 1024){
+        while value > 1024 {
             value /= 1024
             type = type + 1
 
