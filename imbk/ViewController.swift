@@ -238,12 +238,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             let url = urlAsset!.URL
                             NSLog("Video asset URL is " + url.description)
 
-                            let videoData = NSData(contentsOfURL: url)!
+                            do {
+                                let videoData = try NSData(contentsOfURL: url, options: .DataReadingMappedIfSafe)
 
-                            let file = self.uploadFile(sftpSession!, fileData: videoData, originalURL: url, index: counter, totalNumber: photoAssets.count + videoAssets.count, creationDate: asset.creationDate!)
+                                let file = self.uploadFile(sftpSession!, fileData: videoData, originalURL: url, index: counter, totalNumber: photoAssets.count + videoAssets.count, creationDate: asset.creationDate!)
 
-                            if file != nil {
-                                filesToBeKept.insert(file!)
+                                if file != nil {
+                                    filesToBeKept.insert(file!)
+                                }
+                            } catch {
+                                self.updateStatus("WARNING: Could not upload file " + url.absoluteString)
                             }
                         }
 
