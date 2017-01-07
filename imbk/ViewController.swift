@@ -241,8 +241,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
                             let videoData = NSData(contentsOfURL: url)!
 
-                            if(videoData.length < self.maxVideoLength)
-                            {
+                            if videoData.length < self.maxVideoLength {
                                 let file = self.uploadFile(sftpSession!, fileData: videoData, originalURL: url, index: counter, totalNumber: photoAssets.count + videoAssets.count, creationDate: asset.creationDate!)
 
                                 if file != nil {
