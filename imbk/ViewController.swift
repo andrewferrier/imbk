@@ -52,6 +52,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     // Limit length of status text box
     let maxStatusLength = 1024 * 100
     let progressInterval = 0.5
+    let maxVideoLength = 1024 * 1024 * 100
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -240,10 +241,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
                             let videoData = NSData(contentsOfURL: url)!
 
-                            let file = self.uploadFile(sftpSession!, fileData: videoData, originalURL: url, index: counter, totalNumber: photoAssets.count + videoAssets.count, creationDate: asset.creationDate!)
+                            if(videoData.length < self.maxVideoLength)
+                            {
+                                let file = self.uploadFile(sftpSession!, fileData: videoData, originalURL: url, index: counter, totalNumber: photoAssets.count + videoAssets.count, creationDate: asset.creationDate!)
 
-                            if file != nil {
-                                filesToBeKept.insert(file!)
+                                if file != nil {
+                                    filesToBeKept.insert(file!)
+                                }
+                            } else {
+                                self.updateStatus("Cannot upload " + url.absoluteString + " as it is too large.")
                             }
                         }
 
