@@ -16,7 +16,7 @@ platform :ios do
         )
     end
 
-    lane :register_devices do
+    lane :reg_devices do
         register_devices(
             devices_file: 'fastlane/devices.txt'
         )
