@@ -12,7 +12,7 @@ before_install:
   # - brew upgrade swiftlint || brew install swiftlint
   - brew upgrade imagemagick || brew install imagemagick
   - brew upgrade tailor || brew install tailor
-  - pod repo update --silent
+  - pod repo update
 before_script:
   - fastlane/decrypt_files.sh
 script:
