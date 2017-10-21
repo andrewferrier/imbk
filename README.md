@@ -1,5 +1,9 @@
 # imbk
 
+***This project is now unmaintained. For my own photo backup needs, I'm using [PhotoSync](https://photosync-app.com/iOS.html) instead.***
+
+---
+
 [![Travis CI Status](https://travis-ci.org/andrewferrier/imbk.svg?branch=master)](https://travis-ci.org/andrewferrier/imbk)
 
 iPhone Media Backup - an experimental project to provide easy/regular backups
